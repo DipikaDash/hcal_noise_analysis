@@ -1,0 +1,115 @@
+#std::string HLTKey
+std::vector<std::string> HLTInsideDatasetTriggerNames
+std::vector<std::string> HLTOutsideDatasetTriggerNames
+std::vector<bool> HLTInsideDatasetTriggerDecisions
+std::vector<bool> HLTOutsideDatasetTriggerDecisions
+std::vector<double> EBET
+std::vector<double> EBSumE
+std::vector<double> EBSumET
+std::vector<double> EEET
+std::vector<double> EESumE
+std::vector<double> EESumET
+std::vector<double> HBET
+std::vector<double> HBSumE
+std::vector<double> HBSumET
+std::vector<double> HEET
+std::vector<double> HESumE
+std::vector<double> HESumET
+std::vector<double> HFET
+std::vector<double> JetEMEB
+std::vector<double> JetEMEE
+std::vector<double> JetEMFrac
+std::vector<double> JetEMHF
+std::vector<double> JetEta
+std::vector<double> JetHadFrac
+std::vector<double> JetHadHB
+std::vector<double> JetHadHE
+std::vector<double> JetHadHF
+std::vector<double> JetPhi
+std::vector<double> JetPt
+std::vector<double> NominalMET
+std::vector<double> HBHERecHitEnergyRaw
+std::vector<double> IsolatedNoiseSumE
+std::vector<double> IsolatedNoiseSumEt
+std::vector<double> MaxE2E10
+std::vector<double> MinE2E10
+std::vector<double> NegativeNoiseSumE
+std::vector<double> NegativeNoiseSumEt
+std::vector<double> RBXEnergy
+std::vector<double> RBXEnergy15
+std::vector<double> SpikeNoiseSumE
+std::vector<double> SpikeNoiseSumEt
+std::vector<double> MuonCalEnergyEm
+std::vector<double> MuonCalEnergyEmS25
+std::vector<double> MuonCalEnergyHad
+std::vector<double> MuonCalEnergyHadS9
+std::vector<double> MuonEta
+std::vector<double> MuonPhi
+std::vector<double> MuonPt
+std::vector<std::vector<double> > HBHERecHitAuxAllfC
+std::vector<std::vector<double> > HBHERecHitAuxEnergy
+std::vector<std::vector<double> > HBHERecHitAuxFC
+std::vector<std::vector<double> > HBHERecHitAuxGain
+std::vector<std::vector<double> > HBHERecHitAuxPedFC
+std::vector<std::vector<double> > HBHERecHitAuxRCGain
+std::vector<std::vector<double> > RBXCharge
+std::vector<std::vector<double> > RBXCharge15
+std::vector<float> HBHERecHitEnergy
+std::vector<float> HBHERecHitEta
+std::vector<float> HBHERecHitPhi
+std::vector<float> HBHERecHitTime
+std::vector<float> HFRecHitEnergy
+std::vector<float> HFRecHitEta
+std::vector<float> HFRecHitPhi
+std::vector<float> HFRecHitTime
+std::vector<int> JetN60
+std::vector<int> JetN90
+std::vector<int> HBHERecHitAux
+std::vector<int> HBHERecHitDepth
+std::vector<int> HBHERecHitFlags
+std::vector<int> HBHERecHitHPDid
+std::vector<int> HBHERecHitIEta
+std::vector<int> HBHERecHitIPhi
+std::vector<int> HBHERecHitRBXid
+std::vector<int> HFRecHitAux
+std::vector<int> HFRecHitDepth
+std::vector<int> HFRecHitFlags
+std::vector<int> HFRecHitHPDid
+std::vector<int> HFRecHitIEta
+std::vector<int> HFRecHitIPhi
+std::vector<int> HFRecHitRBXid
+std::vector<int> HPDHits
+std::vector<int> HPDNoOtherHits
+std::vector<int> HasBadRBXR45
+std::vector<int> HasBadRBXRechitR45Loose
+std::vector<int> HasBadRBXRechitR45Tight
+std::vector<int> IsoNoiseFilterDecision
+std::vector<int> MaxZeros
+std::vector<int> NumIsolatedNoiseChannels
+std::vector<int> NumNegativeNoiseChannels
+std::vector<int> NumSpikeNoiseChannels
+std::vector<int> OfficialDecision
+std::vector<int> OfficialDecisionRun1
+std::vector<int> OfficialDecisionRun2L
+std::vector<int> OfficialDecisionRun2T
+std::vector<int> MuonCSC2DRecHitsSize
+std::vector<int> MuonCSCSegmentsSize
+std::vector<int> MuonDT1DCosmicRecHitsSize
+std::vector<int> MuonDT1DRecHitsSize
+std::vector<int> MuonDTRecCosmicSegmentsSize
+std::vector<int> MuonDTRecSegmentsSize
+std::vector<int> MuonNumberOfChambers
+std::vector<int> MuonNumberOfMatchedRPCLayers
+std::vector<int> MuonNumberOfMatchedStations
+std::vector<int> MuonRPCRecHitsSize
+std::vector<int> HLTBits
+std::vector<int> HLTInsideDatasetTriggerPrescales
+std::vector<int> HLTOutsideDatasetTriggerPrescales
+std::vector<std::vector<int> > HBHERecHitAuxADC
+std::vector<std::vector<int> > HBHERecHitAuxCapID
+std::vector<std::vector<int> > L1PhysBits
+std::vector<std::vector<int> > L1TechBits
+int bx
+int event
+int ls
+int run
