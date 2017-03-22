@@ -19,4 +19,4 @@ To clean and rebuild the package, do
 
 ## Script to run 
 
-You can write a script in the `src` directory. Take `src/hbhe_fiter.cxx` as an example. Once you have wrote script, build the package again, `./complie.sh`  to get an executable which will be generated in `run`. For `src/hbhe_fiter.cxx` the executable will be `run/hbhe_filter.exe`. Now you can run it by `./run/hbhe_filter.exe`.
+You can write a script in the `src` directory. Look into `src/hbhe_fiter.cxx` for an example. Once you have wrote script, build the package again, `./complie.sh` to get the executable which will be generated in `run`. If you create a script called `src/new_script.cxx` then the name of the executable will be `run/new_script.exe`. For `src/hbhe_fiter.cxx` the executable will be `run/hbhe_filter.exe` which can be run by `./run/hbhe_filter.exe`.
