@@ -6,10 +6,9 @@
 #include "TH1D.h"
 #include "TStyle.h"
 #include "TCanvas.h"
-#include "TRandom1.h"
-#include "TRandom2.h"
 #include "TLine.h"
 #include "TError.h"
+#include "TROOT.h"
 
 #include "hcal_tree_noise.hpp"
 #include "utilities.hpp"
@@ -46,7 +45,7 @@ int main(int argc, char *argv[])
         DEPTH=atoi(argv[3]);
     }
 
-    hcal_tree_noise tree("/Users/jaehyeok/scratch/results_9.root");
+    hcal_tree_noise tree("/afs/cern.ch/work/t/toropin/public/293935_Phase1/*_9.root");
     
     cout << "Analyzing " << tree.GetEntries() << " events" << endl;
 
@@ -96,7 +95,14 @@ int main(int argc, char *argv[])
     h2_anode1->Draw("colz");
     c->cd(2); 
     h2_anode2->Draw("colz");
-    c->Print(Form("plots/hf_ieta%i_iphi%i_depth%i.pdf", IETA, IPHI, DEPTH));
+    c->Print(Form("plots/hf_ieta%i_iphi%i_depth%i.pdf", IETA, IPHI, DEPTH)); 
+
+    TFile *HistFile = new TFile(Form("plots/hf_ieta%i_iphi%i_depth%i.root", IETA, IPHI, DEPTH), "RECREATE");
+    gROOT->cd();
+    HistFile->cd();
+    h2_anode1->SetDirectory(0); h2_anode1->Write(); 
+    h2_anode2->SetDirectory(0); h2_anode2->Write(); 
+    HistFile->Close();
 
 /*
     //
