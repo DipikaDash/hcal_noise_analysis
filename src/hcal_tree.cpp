@@ -286,6 +286,18 @@ hcal_tree::hcal_tree():
   p_HBHERecHitRBXid_(&HBHERecHitRBXid_),
   b_HBHERecHitRBXid_(tree_.Branch("HBHERecHitRBXid", &p_HBHERecHitRBXid_)),
   c_HBHERecHitRBXid_(false),
+  HFPhase1RecHitDepth_(0),
+  p_HFPhase1RecHitDepth_(&HFPhase1RecHitDepth_),
+  b_HFPhase1RecHitDepth_(tree_.Branch("HFPhase1RecHitDepth", &p_HFPhase1RecHitDepth_)),
+  c_HFPhase1RecHitDepth_(false),
+  HFPhase1RecHitIEta_(0),
+  p_HFPhase1RecHitIEta_(&HFPhase1RecHitIEta_),
+  b_HFPhase1RecHitIEta_(tree_.Branch("HFPhase1RecHitIEta", &p_HFPhase1RecHitIEta_)),
+  c_HFPhase1RecHitIEta_(false),
+  HFPhase1RecHitIPhi_(0),
+  p_HFPhase1RecHitIPhi_(&HFPhase1RecHitIPhi_),
+  b_HFPhase1RecHitIPhi_(tree_.Branch("HFPhase1RecHitIPhi", &p_HFPhase1RecHitIPhi_)),
+  c_HFPhase1RecHitIPhi_(false),
   HFRecHitAux_(0),
   p_HFRecHitAux_(&HFRecHitAux_),
   b_HFRecHitAux_(tree_.Branch("HFRecHitAux", &p_HFRecHitAux_)),
@@ -470,6 +482,18 @@ hcal_tree::hcal_tree():
   p_RBXCharge15_(&RBXCharge15_),
   b_RBXCharge15_(tree_.Branch("RBXCharge15", &p_RBXCharge15_)),
   c_RBXCharge15_(false),
+  HFPhase1RecHitQie10Charge_(0),
+  p_HFPhase1RecHitQie10Charge_(&HFPhase1RecHitQie10Charge_),
+  b_HFPhase1RecHitQie10Charge_(tree_.Branch("HFPhase1RecHitQie10Charge", &p_HFPhase1RecHitQie10Charge_)),
+  c_HFPhase1RecHitQie10Charge_(false),
+  HFPhase1RecHitQie10Energy_(0),
+  p_HFPhase1RecHitQie10Energy_(&HFPhase1RecHitQie10Energy_),
+  b_HFPhase1RecHitQie10Energy_(tree_.Branch("HFPhase1RecHitQie10Energy", &p_HFPhase1RecHitQie10Energy_)),
+  c_HFPhase1RecHitQie10Energy_(false),
+  HFPhase1RecHitQie10Time_(0),
+  p_HFPhase1RecHitQie10Time_(&HFPhase1RecHitQie10Time_),
+  b_HFPhase1RecHitQie10Time_(tree_.Branch("HFPhase1RecHitQie10Time", &p_HFPhase1RecHitQie10Time_)),
+  c_HFPhase1RecHitQie10Time_(false),
   HBHERecHitAuxADC_(0),
   p_HBHERecHitAuxADC_(&HBHERecHitAuxADC_),
   b_HBHERecHitAuxADC_(tree_.Branch("HBHERecHitAuxADC", &p_HBHERecHitAuxADC_)),
@@ -744,6 +768,18 @@ hcal_tree::hcal_tree(const string &filename):
   p_HBHERecHitRBXid_(&HBHERecHitRBXid_),
   b_HBHERecHitRBXid_(NULL),
   c_HBHERecHitRBXid_(false),
+  HFPhase1RecHitDepth_(0),
+  p_HFPhase1RecHitDepth_(&HFPhase1RecHitDepth_),
+  b_HFPhase1RecHitDepth_(NULL),
+  c_HFPhase1RecHitDepth_(false),
+  HFPhase1RecHitIEta_(0),
+  p_HFPhase1RecHitIEta_(&HFPhase1RecHitIEta_),
+  b_HFPhase1RecHitIEta_(NULL),
+  c_HFPhase1RecHitIEta_(false),
+  HFPhase1RecHitIPhi_(0),
+  p_HFPhase1RecHitIPhi_(&HFPhase1RecHitIPhi_),
+  b_HFPhase1RecHitIPhi_(NULL),
+  c_HFPhase1RecHitIPhi_(false),
   HFRecHitAux_(0),
   p_HFRecHitAux_(&HFRecHitAux_),
   b_HFRecHitAux_(NULL),
@@ -928,6 +964,18 @@ hcal_tree::hcal_tree(const string &filename):
   p_RBXCharge15_(&RBXCharge15_),
   b_RBXCharge15_(NULL),
   c_RBXCharge15_(false),
+  HFPhase1RecHitQie10Charge_(0),
+  p_HFPhase1RecHitQie10Charge_(&HFPhase1RecHitQie10Charge_),
+  b_HFPhase1RecHitQie10Charge_(NULL),
+  c_HFPhase1RecHitQie10Charge_(false),
+  HFPhase1RecHitQie10Energy_(0),
+  p_HFPhase1RecHitQie10Energy_(&HFPhase1RecHitQie10Energy_),
+  b_HFPhase1RecHitQie10Energy_(NULL),
+  c_HFPhase1RecHitQie10Energy_(false),
+  HFPhase1RecHitQie10Time_(0),
+  p_HFPhase1RecHitQie10Time_(&HFPhase1RecHitQie10Time_),
+  b_HFPhase1RecHitQie10Time_(NULL),
+  c_HFPhase1RecHitQie10Time_(false),
   HBHERecHitAuxADC_(0),
   p_HBHERecHitAuxADC_(&HBHERecHitAuxADC_),
   b_HBHERecHitAuxADC_(NULL),
@@ -1009,6 +1057,9 @@ hcal_tree::hcal_tree(const string &filename):
   chain_.SetBranchAddress("HBHERecHitIEta", &p_HBHERecHitIEta_, &b_HBHERecHitIEta_);
   chain_.SetBranchAddress("HBHERecHitIPhi", &p_HBHERecHitIPhi_, &b_HBHERecHitIPhi_);
   chain_.SetBranchAddress("HBHERecHitRBXid", &p_HBHERecHitRBXid_, &b_HBHERecHitRBXid_);
+  chain_.SetBranchAddress("HFPhase1RecHitDepth", &p_HFPhase1RecHitDepth_, &b_HFPhase1RecHitDepth_);
+  chain_.SetBranchAddress("HFPhase1RecHitIEta", &p_HFPhase1RecHitIEta_, &b_HFPhase1RecHitIEta_);
+  chain_.SetBranchAddress("HFPhase1RecHitIPhi", &p_HFPhase1RecHitIPhi_, &b_HFPhase1RecHitIPhi_);
   chain_.SetBranchAddress("HFRecHitAux", &p_HFRecHitAux_, &b_HFRecHitAux_);
   chain_.SetBranchAddress("HFRecHitDepth", &p_HFRecHitDepth_, &b_HFRecHitDepth_);
   chain_.SetBranchAddress("HFRecHitFlags", &p_HFRecHitFlags_, &b_HFRecHitFlags_);
@@ -1055,6 +1106,9 @@ hcal_tree::hcal_tree(const string &filename):
   chain_.SetBranchAddress("HBHERecHitAuxRCGain", &p_HBHERecHitAuxRCGain_, &b_HBHERecHitAuxRCGain_);
   chain_.SetBranchAddress("RBXCharge", &p_RBXCharge_, &b_RBXCharge_);
   chain_.SetBranchAddress("RBXCharge15", &p_RBXCharge15_, &b_RBXCharge15_);
+  chain_.SetBranchAddress("HFPhase1RecHitQie10Charge", &p_HFPhase1RecHitQie10Charge_, &b_HFPhase1RecHitQie10Charge_);
+  chain_.SetBranchAddress("HFPhase1RecHitQie10Energy", &p_HFPhase1RecHitQie10Energy_, &b_HFPhase1RecHitQie10Energy_);
+  chain_.SetBranchAddress("HFPhase1RecHitQie10Time", &p_HFPhase1RecHitQie10Time_, &b_HFPhase1RecHitQie10Time_);
   chain_.SetBranchAddress("HBHERecHitAuxADC", &p_HBHERecHitAuxADC_, &b_HBHERecHitAuxADC_);
   chain_.SetBranchAddress("HBHERecHitAuxCapID", &p_HBHERecHitAuxCapID_, &b_HBHERecHitAuxCapID_);
   chain_.SetBranchAddress("L1PhysBits", &p_L1PhysBits_, &b_L1PhysBits_);
@@ -1133,6 +1187,9 @@ void hcal_tree::Fill(){
   HBHERecHitIEta_.clear();
   HBHERecHitIPhi_.clear();
   HBHERecHitRBXid_.clear();
+  HFPhase1RecHitDepth_.clear();
+  HFPhase1RecHitIEta_.clear();
+  HFPhase1RecHitIPhi_.clear();
   HFRecHitAux_.clear();
   HFRecHitDepth_.clear();
   HFRecHitFlags_.clear();
@@ -1179,6 +1236,9 @@ void hcal_tree::Fill(){
   HBHERecHitAuxRCGain_.clear();
   RBXCharge_.clear();
   RBXCharge15_.clear();
+  HFPhase1RecHitQie10Charge_.clear();
+  HFPhase1RecHitQie10Energy_.clear();
+  HFPhase1RecHitQie10Time_.clear();
   HBHERecHitAuxADC_.clear();
   HBHERecHitAuxCapID_.clear();
   L1PhysBits_.clear();
@@ -1296,6 +1356,9 @@ void hcal_tree::GetEntry(const long entry){
   c_HBHERecHitIEta_ = false;
   c_HBHERecHitIPhi_ = false;
   c_HBHERecHitRBXid_ = false;
+  c_HFPhase1RecHitDepth_ = false;
+  c_HFPhase1RecHitIEta_ = false;
+  c_HFPhase1RecHitIPhi_ = false;
   c_HFRecHitAux_ = false;
   c_HFRecHitDepth_ = false;
   c_HFRecHitFlags_ = false;
@@ -1342,6 +1405,9 @@ void hcal_tree::GetEntry(const long entry){
   c_HBHERecHitAuxRCGain_ = false;
   c_RBXCharge_ = false;
   c_RBXCharge15_ = false;
+  c_HFPhase1RecHitQie10Charge_ = false;
+  c_HFPhase1RecHitQie10Energy_ = false;
+  c_HFPhase1RecHitQie10Time_ = false;
   c_HBHERecHitAuxADC_ = false;
   c_HBHERecHitAuxCapID_ = false;
   c_L1PhysBits_ = false;
@@ -2053,6 +2119,39 @@ std::vector<int>  const & hcal_tree::HBHERecHitRBXid() const{
   return HBHERecHitRBXid_;
 }
 
+std::vector<int>  const & hcal_tree::HFPhase1RecHitDepth() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HFPhase1RecHitDepth_ && b_HFPhase1RecHitDepth_){
+    b_HFPhase1RecHitDepth_->GetEntry(entry_);
+    c_HFPhase1RecHitDepth_ = true;
+  }
+  return HFPhase1RecHitDepth_;
+}
+
+std::vector<int>  const & hcal_tree::HFPhase1RecHitIEta() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HFPhase1RecHitIEta_ && b_HFPhase1RecHitIEta_){
+    b_HFPhase1RecHitIEta_->GetEntry(entry_);
+    c_HFPhase1RecHitIEta_ = true;
+  }
+  return HFPhase1RecHitIEta_;
+}
+
+std::vector<int>  const & hcal_tree::HFPhase1RecHitIPhi() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HFPhase1RecHitIPhi_ && b_HFPhase1RecHitIPhi_){
+    b_HFPhase1RecHitIPhi_->GetEntry(entry_);
+    c_HFPhase1RecHitIPhi_ = true;
+  }
+  return HFPhase1RecHitIPhi_;
+}
+
 std::vector<int>  const & hcal_tree::HFRecHitAux() const{
   if(!read_only_){
     throw std::logic_error("Trying to write to const tree.");
@@ -2557,6 +2656,39 @@ std::vector<std::vector<double> >  const & hcal_tree::RBXCharge15() const{
     c_RBXCharge15_ = true;
   }
   return RBXCharge15_;
+}
+
+std::vector<std::vector<float> >  const & hcal_tree::HFPhase1RecHitQie10Charge() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HFPhase1RecHitQie10Charge_ && b_HFPhase1RecHitQie10Charge_){
+    b_HFPhase1RecHitQie10Charge_->GetEntry(entry_);
+    c_HFPhase1RecHitQie10Charge_ = true;
+  }
+  return HFPhase1RecHitQie10Charge_;
+}
+
+std::vector<std::vector<float> >  const & hcal_tree::HFPhase1RecHitQie10Energy() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HFPhase1RecHitQie10Energy_ && b_HFPhase1RecHitQie10Energy_){
+    b_HFPhase1RecHitQie10Energy_->GetEntry(entry_);
+    c_HFPhase1RecHitQie10Energy_ = true;
+  }
+  return HFPhase1RecHitQie10Energy_;
+}
+
+std::vector<std::vector<float> >  const & hcal_tree::HFPhase1RecHitQie10Time() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HFPhase1RecHitQie10Time_ && b_HFPhase1RecHitQie10Time_){
+    b_HFPhase1RecHitQie10Time_->GetEntry(entry_);
+    c_HFPhase1RecHitQie10Time_ = true;
+  }
+  return HFPhase1RecHitQie10Time_;
 }
 
 std::vector<std::vector<int> >  const & hcal_tree::HBHERecHitAuxADC() const{
@@ -3115,6 +3247,30 @@ std::vector<int>  & hcal_tree::HBHERecHitRBXid(){
   return HBHERecHitRBXid_;
 }
 
+std::vector<int>  & hcal_tree::HFPhase1RecHitDepth(){
+  if(read_only_ && !c_HFPhase1RecHitDepth_ && b_HFPhase1RecHitDepth_){
+    b_HFPhase1RecHitDepth_->GetEntry(entry_);
+    c_HFPhase1RecHitDepth_ = true;
+  }
+  return HFPhase1RecHitDepth_;
+}
+
+std::vector<int>  & hcal_tree::HFPhase1RecHitIEta(){
+  if(read_only_ && !c_HFPhase1RecHitIEta_ && b_HFPhase1RecHitIEta_){
+    b_HFPhase1RecHitIEta_->GetEntry(entry_);
+    c_HFPhase1RecHitIEta_ = true;
+  }
+  return HFPhase1RecHitIEta_;
+}
+
+std::vector<int>  & hcal_tree::HFPhase1RecHitIPhi(){
+  if(read_only_ && !c_HFPhase1RecHitIPhi_ && b_HFPhase1RecHitIPhi_){
+    b_HFPhase1RecHitIPhi_->GetEntry(entry_);
+    c_HFPhase1RecHitIPhi_ = true;
+  }
+  return HFPhase1RecHitIPhi_;
+}
+
 std::vector<int>  & hcal_tree::HFRecHitAux(){
   if(read_only_ && !c_HFRecHitAux_ && b_HFRecHitAux_){
     b_HFRecHitAux_->GetEntry(entry_);
@@ -3481,6 +3637,30 @@ std::vector<std::vector<double> >  & hcal_tree::RBXCharge15(){
     c_RBXCharge15_ = true;
   }
   return RBXCharge15_;
+}
+
+std::vector<std::vector<float> >  & hcal_tree::HFPhase1RecHitQie10Charge(){
+  if(read_only_ && !c_HFPhase1RecHitQie10Charge_ && b_HFPhase1RecHitQie10Charge_){
+    b_HFPhase1RecHitQie10Charge_->GetEntry(entry_);
+    c_HFPhase1RecHitQie10Charge_ = true;
+  }
+  return HFPhase1RecHitQie10Charge_;
+}
+
+std::vector<std::vector<float> >  & hcal_tree::HFPhase1RecHitQie10Energy(){
+  if(read_only_ && !c_HFPhase1RecHitQie10Energy_ && b_HFPhase1RecHitQie10Energy_){
+    b_HFPhase1RecHitQie10Energy_->GetEntry(entry_);
+    c_HFPhase1RecHitQie10Energy_ = true;
+  }
+  return HFPhase1RecHitQie10Energy_;
+}
+
+std::vector<std::vector<float> >  & hcal_tree::HFPhase1RecHitQie10Time(){
+  if(read_only_ && !c_HFPhase1RecHitQie10Time_ && b_HFPhase1RecHitQie10Time_){
+    b_HFPhase1RecHitQie10Time_->GetEntry(entry_);
+    c_HFPhase1RecHitQie10Time_ = true;
+  }
+  return HFPhase1RecHitQie10Time_;
 }
 
 std::vector<std::vector<int> >  & hcal_tree::HBHERecHitAuxADC(){
