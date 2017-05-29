@@ -25,45 +25,48 @@
 
 using namespace std; 
 
-int main(int argc, char *argv[])
+int main()
 { 
 
     gErrorIgnoreLevel=kError+1;
 
-    int IETA=1;
-    int IPHI=1;
-    int DEPTH=1;
-
-    if(argc<4) {
-        cout << "Enter [ieta] [iphi] [depth]" << endl;
-        return 0;
-    } 
-    else 
-    { 
-        IETA=atoi(argv[1]);
-        IPHI=atoi(argv[2]);
-        DEPTH=atoi(argv[3]);
-    }
-
-    hcal_tree_noise tree("/afs/cern.ch/work/t/toropin/public/293935_Phase1/*_9.root");
+    hcal_tree_noise tree("/Users/jaehyeok/scratch/results_9.root");
     
     cout << "Analyzing " << tree.GetEntries() << " events" << endl;
 
-    TH2D *h2_anode1 = new TH2D("h2_anode1","h2_anode1",100, 0, 1000, 320, -110, 50);
-    TH2D *h2_anode2 = new TH2D("h2_anode2","h2_anode2",100, 0, 1000, 320, -110, 50);
+    // define histograms 
+    TH2D *h2_anode1[83][72][2]; // [ieta], [iphi], [depth]
+    TH2D *h2_anode2[83][72][2]; 
+    for(int ieta=-41; ieta<=41; ieta++)
+    {
+        for(int iphi=1; iphi<=72; iphi++)
+        {
+            for(int depth=1; depth<=2; depth++)
+            {
+                h2_anode1[ieta+41][iphi-1][depth-1] 
+                    = new TH2D( Form("h2_anode1_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                Form("h2_anode1_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                100, 0, 1000, 320, -110, 50);
+                h2_anode2[ieta+41][iphi-1][depth-1] 
+                    = new TH2D( Form("h2_anode2_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                Form("h2_anode2_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                100, 0, 1000, 320, -110, 50);
+            }
+        }
+    }
 
     // loop over tree
     for(unsigned int ientry=0; ientry<tree.GetEntries(); ientry++)
-    //for(unsigned int ientry=0; ientry<1; ientry++)
+    //for(unsigned int ientry=0; ientry<100; ientry++)
     {
         tree.GetEntry(ientry);  
         
         for(unsigned int irec=0; irec<tree.HFPhase1RecHitDepth().size(); irec++) 
         { 
-            if( tree.HFPhase1RecHitIEta().at(irec)!=IETA ||
-                tree.HFPhase1RecHitIPhi().at(irec)!=IPHI ||
-                tree.HFPhase1RecHitDepth().at(irec)!=DEPTH
-              ) continue;
+            //if( tree.HFPhase1RecHitIEta().at(irec)!=IETA ||
+            //    tree.HFPhase1RecHitIPhi().at(irec)!=IPHI ||
+            //    tree.HFPhase1RecHitDepth().at(irec)!=DEPTH
+            //  ) continue;
 
             if(0)  // debug  
             {    
@@ -81,27 +84,39 @@ int main(int argc, char *argv[])
             }
 
             //
-            FillTH2D(h2_anode1, tree.HFPhase1RecHitQie10Charge().at(irec).at(0), 
-                                tree.HFPhase1RecHitQie10Time().at(irec).at(0), 1);
-            FillTH2D(h2_anode2, tree.HFPhase1RecHitQie10Charge().at(irec).at(1), 
-                                tree.HFPhase1RecHitQie10Time().at(irec).at(1), 1);
+            int index_ieta=tree.HFPhase1RecHitIEta().at(irec)+41;
+            int index_iphi=tree.HFPhase1RecHitIPhi().at(irec)-1;
+            int index_depth=tree.HFPhase1RecHitDepth().at(irec)-1;
+            FillTH2D(h2_anode1[index_ieta][index_iphi][index_depth], 
+                     tree.HFPhase1RecHitQie10Charge().at(irec).at(0), 
+                     tree.HFPhase1RecHitQie10Time().at(irec).at(0), 1);
+            FillTH2D(h2_anode2[index_ieta][index_iphi][index_depth], 
+                     tree.HFPhase1RecHitQie10Charge().at(irec).at(1), 
+                     tree.HFPhase1RecHitQie10Time().at(irec).at(1), 1);
         }
     }
-
  
-    TCanvas *c = new TCanvas("c", "c", 800, 400); 
-    c->Divide(2,1);
-    c->cd(1); 
-    h2_anode1->Draw("colz");
-    c->cd(2); 
-    h2_anode2->Draw("colz");
-    c->Print(Form("plots/hf_ieta%i_iphi%i_depth%i.pdf", IETA, IPHI, DEPTH)); 
-
-    TFile *HistFile = new TFile(Form("plots/hf_ieta%i_iphi%i_depth%i.root", IETA, IPHI, DEPTH), "RECREATE");
+    TFile *HistFile = new TFile("optimize_hf.root", "RECREATE");
     gROOT->cd();
     HistFile->cd();
-    h2_anode1->SetDirectory(0); h2_anode1->Write(); 
-    h2_anode2->SetDirectory(0); h2_anode2->Write(); 
+
+    for(int ieta=-41; ieta<=41; ieta++)
+    {
+        for(int iphi=1; iphi<=72; iphi++)
+        {
+            for(int depth=1; depth<=2; depth++)
+            {
+                //if(ieta>-29 && ieta<29) continue;
+                if( h2_anode1[ieta+41][iphi-1][depth-1]->Integral()==0  && 
+                    h2_anode2[ieta+41][iphi-1][depth-1]->Integral()==0 
+                    ) continue;
+                h2_anode1[ieta+41][iphi-1][depth-1]->SetDirectory(0);
+                h2_anode1[ieta+41][iphi-1][depth-1]->Write();
+                h2_anode2[ieta+41][iphi-1][depth-1]->SetDirectory(0);
+                h2_anode2[ieta+41][iphi-1][depth-1]->Write();
+            }
+        }
+    }
     HistFile->Close();
 
 /*
