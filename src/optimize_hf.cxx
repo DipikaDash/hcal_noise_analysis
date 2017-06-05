@@ -29,7 +29,7 @@ int main()
 { 
 
     gErrorIgnoreLevel=kError+1;
-
+/*
     hcal_tree_noise tree("/Users/jaehyeok/scratch/results_9.root");
     
     cout << "Analyzing " << tree.GetEntries() << " events" << endl;
@@ -118,6 +118,44 @@ int main()
         }
     }
     HistFile->Close();
+*/
+
+  // 
+  // Read histograms from a file
+  //
+  TFile* infile  = TFile::Open("optimize_hf.root", "READ");
+    
+  // merge iphi
+  TH2D *h2_anode1[83][2]; // [ieta], [iphi], [depth]
+  TH2D *h2_anode2[83][2]; 
+  for(int ieta=-41; ieta<=41; ieta++)
+  {
+     for(int depth=1; depth<=2; depth++)
+     {
+         h2_anode1[ieta+41][depth-1] 
+             = new TH2D( Form("h2_anode1_ieta%i_depth%i", ieta, depth),
+                         Form("h2_anode1_ieta%i_depth%i", ieta, depth),
+                         100, 0, 1000, 320, -110, 50);
+         h2_anode2[ieta+41][depth-1] 
+             = new TH2D( Form("h2_anode2_ieta%i_depth%i", ieta, depth),
+                         Form("h2_anode2_ieta%i_depth%i", ieta, depth),
+                         100, 0, 1000, 320, -110, 50); 
+        
+        for(int iphi=1; iphi<=72; iphi++) 
+        { 
+           TH2D *h2_temp = infile->Get(Form("h2_anode1_ieta%i_iphi%i_depth%i", ieta, iphi, depth)); 
+           if(h2_temp) h2_anode1[ieta+41][depth-1]->Add()
+           h2_temp = infile->Get(Form("h2_anode2_ieta%i_iphi%i_depth%i", ieta, iphi, depth)); 
+           if(h2_temp) h2_anode2[ieta+41][depth-1]->Add()
+           delete h2_temp;
+        }
+     }
+  }
+
+  
+
+h2_anode2_ieta41_iphi51_depth2
+
 
 /*
     //
