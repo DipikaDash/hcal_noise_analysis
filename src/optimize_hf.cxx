@@ -29,14 +29,16 @@ int main()
 { 
 
     gErrorIgnoreLevel=kError+1;
-/*
-    hcal_tree_noise tree("/Users/jaehyeok/scratch/results_9.root");
+
+    //hcal_tree_noise tree("/hadoop/cms/store/user/jaehyeok/JetHT/Run2017A-v1_RAW_20170608_114855/170608_094903/0000/*.root");
+    hcal_tree_noise tree("/hadoop/cms/store/user/jaehyeok/JetHT/Run2017A-v1_RAW_20170608_114855/170608_094903/0000/*_4.root");
     
     cout << "Analyzing " << tree.GetEntries() << " events" << endl;
 
     // define histograms 
     TH2D *h2_anode1[83][72][2]; // [ieta], [iphi], [depth]
     TH2D *h2_anode2[83][72][2]; 
+    TH2D *h2_asym[83][72][2]; 
     for(int ieta=-41; ieta<=41; ieta++)
     {
         for(int iphi=1; iphi<=72; iphi++)
@@ -46,11 +48,15 @@ int main()
                 h2_anode1[ieta+41][iphi-1][depth-1] 
                     = new TH2D( Form("h2_anode1_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
                                 Form("h2_anode1_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
-                                100, 0, 1000, 320, -110, 50);
+                                200, 0, 2000, 320, -110, 50);
                 h2_anode2[ieta+41][iphi-1][depth-1] 
                     = new TH2D( Form("h2_anode2_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
                                 Form("h2_anode2_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
-                                100, 0, 1000, 320, -110, 50);
+                                200, 0, 2000, 320, -110, 50);
+                h2_asym[ieta+41][iphi-1][depth-1] 
+                    = new TH2D( Form("h2_asym_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                Form("h2_asym_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                100, 0, 2000, 100, 0, 100);
             }
         }
     }
@@ -93,6 +99,9 @@ int main()
             FillTH2D(h2_anode2[index_ieta][index_iphi][index_depth], 
                      tree.HFPhase1RecHitQie10Charge().at(irec).at(1), 
                      tree.HFPhase1RecHitQie10Time().at(irec).at(1), 1);
+            FillTH2D(h2_asym[index_ieta][index_iphi][index_depth], 
+                     tree.HFPhase1RecHitQie10Charge().at(irec).at(0), 
+                     tree.HFPhase1RecHitQie10Charge().at(irec).at(1), 1);
         }
     }
  
@@ -114,12 +123,14 @@ int main()
                 h2_anode1[ieta+41][iphi-1][depth-1]->Write();
                 h2_anode2[ieta+41][iphi-1][depth-1]->SetDirectory(0);
                 h2_anode2[ieta+41][iphi-1][depth-1]->Write();
+                h2_asym[ieta+41][iphi-1][depth-1]->SetDirectory(0);
+                h2_asym[ieta+41][iphi-1][depth-1]->Write();
             }
         }
     }
     HistFile->Close();
-*/
 
+/*
   // 
   // Read histograms from a file
   //
@@ -135,11 +146,11 @@ int main()
          h2_anode1[ieta+41][depth-1] 
              = new TH2D( Form("h2_anode1_ieta%i_depth%i", ieta, depth),
                          Form("h2_anode1_ieta%i_depth%i", ieta, depth),
-                         100, 0, 1000, 320, -110, 50);
+                         200, 0, 2000, 320, -110, 50);
          h2_anode2[ieta+41][depth-1] 
              = new TH2D( Form("h2_anode2_ieta%i_depth%i", ieta, depth),
                          Form("h2_anode2_ieta%i_depth%i", ieta, depth),
-                         100, 0, 1000, 320, -110, 50); 
+                         200, 0, 2000, 320, -110, 50); 
         
         for(int iphi=1; iphi<=72; iphi++) 
         { 
@@ -151,11 +162,8 @@ int main()
         }
      }
   }
-
+*/
   
-
-h2_anode2_ieta41_iphi51_depth2
-
 
 /*
     //
