@@ -11,6 +11,7 @@
 #include "TError.h"
 #include "TROOT.h"
 #include "TMath.h"
+#include "TVector3.h"
 
 #include "hcal_tree_noise.hpp"
 #include "utilities.hpp"
@@ -32,12 +33,16 @@ int main()
 
     gErrorIgnoreLevel=kError+1;
 
-    // ntuples without MET variable : make sure to removed lines with tree.NominalMET() 
-    // hcal_tree_noise tree("/net/cms2/cms2r0/jaehyeokyoo/hcal/jetht_nometvar/*.root");
-    // hcal_tree_noise tree("/net/cms2/cms2r0/jaehyeokyoo/hcal/jetht_nometvar/results_10.root");
+    // ntuples without MET variable 
+    //hcal_tree_noise tree("/hadoop/cms/store/user/jaehyeok/JetHT/Run2017A-v1_RAW_20170608_114855/170608_094903/0000/*.root");
+    //hcal_tree_noise tree("/hadoop/cms/store/user/jaehyeok/JetHT/Run2017A-v1_RAW_20170608_114855/170608_094903/0000/*_4.root");
     // ntuples with MET variable 
-     hcal_tree_noise tree("/net/cms2/cms2r0/jaehyeokyoo/hcal/met/*.root");
-     //hcal_tree_noise tree("/net/cms2/cms2r0/jaehyeokyoo/hcal/singlemuon/*.root");
+    //hcal_tree_noise tree("/hadoop/cms/store/user/jaehyeok/JetHT/Run2017A-v1_RAW_20170612_204717/170612_184739/0000/*_5*.root");
+    //hcal_tree_noise tree("/hadoop/cms/store/user/jaehyeok/SingleMuon/Run2017A-v1_RAW_20170613_102736/170613_082753/0000/results_5*.root");
+    //hcal_tree_noise tree("/hadoop/cms/store/user/jaehyeok/MET/Run2017A-v1_RAW_20170613_094107/170613_074123/0000/results_5*.root");
+    hcal_tree_noise tree("results_forwardjets_met.root");
+    //hcal_tree_noise tree("/home/users/jaehyeok/scratch/met/*root");
+    //hcal_tree_noise tree("/home/users/jaehyeok/scratch/singlemuon/*root");
     
     //hcal_tree_noise tree("~/scratch/results_forwardjets.root");
     
@@ -89,6 +94,7 @@ int main()
     TH1D *h1_met_asym = new TH1D( "h1_met_asym", "h1_met_asym", 100, 0, 500);
     TH1D *h1_met_both = new TH1D( "h1_met_both", "h1_met_both", 100, 0, 500);
     TH1D *h1_met_cor = new TH1D( "h1_met_cor", "h1_met_cor", 100, -200, 200);
+    TH1D *h1_met_phi = new TH1D( "h1_met_phi", "h1_met_phi", 30, -3.141592, 3.141592);
 
     // loop over tree
     for(unsigned int ientry=0; ientry<tree.GetEntries(); ientry++)
@@ -98,14 +104,10 @@ int main()
         
         tree.GetEntry(ientry);  
 
-        cout << tree.NominalMET().at(0) << ", " <<  tree.NominalMET().at(1) 
-             << " = " << TMath::Sqrt(tree.NominalMET().at(0)*tree.NominalMET().at(0)
-                                    +tree.NominalMET().at(1)*tree.NominalMET().at(1)) << endl;
-
-
-        // Select only colliding BXs
-        if(!isCollidingBX(tree.run(), tree.bx())) continue;
-
+        //cout << tree.NominalMET().at(0) << ", " <<  tree.NominalMET().at(1) 
+        //     << " = " << TMath::Sqrt(tree.NominalMET().at(0)*tree.NominalMET().at(0)
+        //                            +tree.NominalMET().at(1)*tree.NominalMET().at(1)) << endl;
+        
         // FIXME: need to apply HBHE event filters? 
 
         // corrections to the nominal MET
@@ -163,7 +165,7 @@ int main()
 
             if(!passAsymcut(tree.HFPhase1RecHitIEta().at(irec),
                             tree.HFPhase1RecHitDepth().at(irec),
-                            tree.HFPhase1RecHitQie10Charge().at(irec).at(0), 
+                            tree.HFPhase1RecHitQie10Charge().at(irec).at(0),
                             tree.HFPhase1RecHitQie10Charge().at(irec).at(1)))
             {
                METx_asym_cor = METx_asym_cor + getMETx(tree.HFPhase1RecHitEta().at(irec),
@@ -260,6 +262,10 @@ int main()
         FillTH1D(h1_met_asym, MET_asym, 1);
         FillTH1D(h1_met_both, MET_both, 1);
         if(MET-MET_both) FillTH1D(h1_met_cor, MET-MET_both, 1);
+       
+        TVector3 met(tree.NominalMET().at(0), tree.NominalMET().at(1), 0);
+        FillTH1D(h1_met_phi, met.Phi(), 1);
+
     }
  
     TFile *HistFile = new TFile("optimize_hf.root", "RECREATE");
@@ -297,6 +303,7 @@ int main()
     h1_met_asym->SetDirectory(0); h1_met_asym->Write();
     h1_met_both->SetDirectory(0); h1_met_both->Write();
     h1_met_cor->SetDirectory(0); h1_met_cor->Write();
+    h1_met_phi->SetDirectory(0); h1_met_phi->Write();
     HistFile->Close();
 
 /*
