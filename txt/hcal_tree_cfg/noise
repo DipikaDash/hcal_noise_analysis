@@ -119,3 +119,5 @@ std::vector<std::vector<float> > HFPhase1RecHitQie10Time
 std::vector<int> HFPhase1RecHitIEta
 std::vector<int> HFPhase1RecHitIPhi
 std::vector<int> HFPhase1RecHitDepth
+std::vector<float> HFPhase1RecHitEta
+std::vector<float> HFPhase1RecHitPhi

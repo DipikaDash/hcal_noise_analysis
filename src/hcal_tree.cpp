@@ -242,6 +242,14 @@ hcal_tree::hcal_tree():
   p_HBHERecHitTime_(&HBHERecHitTime_),
   b_HBHERecHitTime_(tree_.Branch("HBHERecHitTime", &p_HBHERecHitTime_)),
   c_HBHERecHitTime_(false),
+  HFPhase1RecHitEta_(0),
+  p_HFPhase1RecHitEta_(&HFPhase1RecHitEta_),
+  b_HFPhase1RecHitEta_(tree_.Branch("HFPhase1RecHitEta", &p_HFPhase1RecHitEta_)),
+  c_HFPhase1RecHitEta_(false),
+  HFPhase1RecHitPhi_(0),
+  p_HFPhase1RecHitPhi_(&HFPhase1RecHitPhi_),
+  b_HFPhase1RecHitPhi_(tree_.Branch("HFPhase1RecHitPhi", &p_HFPhase1RecHitPhi_)),
+  c_HFPhase1RecHitPhi_(false),
   HFRecHitEnergy_(0),
   p_HFRecHitEnergy_(&HFRecHitEnergy_),
   b_HFRecHitEnergy_(tree_.Branch("HFRecHitEnergy", &p_HFRecHitEnergy_)),
@@ -724,6 +732,14 @@ hcal_tree::hcal_tree(const string &filename):
   p_HBHERecHitTime_(&HBHERecHitTime_),
   b_HBHERecHitTime_(NULL),
   c_HBHERecHitTime_(false),
+  HFPhase1RecHitEta_(0),
+  p_HFPhase1RecHitEta_(&HFPhase1RecHitEta_),
+  b_HFPhase1RecHitEta_(NULL),
+  c_HFPhase1RecHitEta_(false),
+  HFPhase1RecHitPhi_(0),
+  p_HFPhase1RecHitPhi_(&HFPhase1RecHitPhi_),
+  b_HFPhase1RecHitPhi_(NULL),
+  c_HFPhase1RecHitPhi_(false),
   HFRecHitEnergy_(0),
   p_HFRecHitEnergy_(&HFRecHitEnergy_),
   b_HFRecHitEnergy_(NULL),
@@ -1046,6 +1062,8 @@ hcal_tree::hcal_tree(const string &filename):
   chain_.SetBranchAddress("HBHERecHitEta", &p_HBHERecHitEta_, &b_HBHERecHitEta_);
   chain_.SetBranchAddress("HBHERecHitPhi", &p_HBHERecHitPhi_, &b_HBHERecHitPhi_);
   chain_.SetBranchAddress("HBHERecHitTime", &p_HBHERecHitTime_, &b_HBHERecHitTime_);
+  chain_.SetBranchAddress("HFPhase1RecHitEta", &p_HFPhase1RecHitEta_, &b_HFPhase1RecHitEta_);
+  chain_.SetBranchAddress("HFPhase1RecHitPhi", &p_HFPhase1RecHitPhi_, &b_HFPhase1RecHitPhi_);
   chain_.SetBranchAddress("HFRecHitEnergy", &p_HFRecHitEnergy_, &b_HFRecHitEnergy_);
   chain_.SetBranchAddress("HFRecHitEta", &p_HFRecHitEta_, &b_HFRecHitEta_);
   chain_.SetBranchAddress("HFRecHitPhi", &p_HFRecHitPhi_, &b_HFRecHitPhi_);
@@ -1176,6 +1194,8 @@ void hcal_tree::Fill(){
   HBHERecHitEta_.clear();
   HBHERecHitPhi_.clear();
   HBHERecHitTime_.clear();
+  HFPhase1RecHitEta_.clear();
+  HFPhase1RecHitPhi_.clear();
   HFRecHitEnergy_.clear();
   HFRecHitEta_.clear();
   HFRecHitPhi_.clear();
@@ -1345,6 +1365,8 @@ void hcal_tree::GetEntry(const long entry){
   c_HBHERecHitEta_ = false;
   c_HBHERecHitPhi_ = false;
   c_HBHERecHitTime_ = false;
+  c_HFPhase1RecHitEta_ = false;
+  c_HFPhase1RecHitPhi_ = false;
   c_HFRecHitEnergy_ = false;
   c_HFRecHitEta_ = false;
   c_HFRecHitPhi_ = false;
@@ -1996,6 +2018,28 @@ std::vector<float>  const & hcal_tree::HBHERecHitTime() const{
     c_HBHERecHitTime_ = true;
   }
   return HBHERecHitTime_;
+}
+
+std::vector<float>  const & hcal_tree::HFPhase1RecHitEta() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HFPhase1RecHitEta_ && b_HFPhase1RecHitEta_){
+    b_HFPhase1RecHitEta_->GetEntry(entry_);
+    c_HFPhase1RecHitEta_ = true;
+  }
+  return HFPhase1RecHitEta_;
+}
+
+std::vector<float>  const & hcal_tree::HFPhase1RecHitPhi() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HFPhase1RecHitPhi_ && b_HFPhase1RecHitPhi_){
+    b_HFPhase1RecHitPhi_->GetEntry(entry_);
+    c_HFPhase1RecHitPhi_ = true;
+  }
+  return HFPhase1RecHitPhi_;
 }
 
 std::vector<float>  const & hcal_tree::HFRecHitEnergy() const{
@@ -3157,6 +3201,22 @@ std::vector<float>  & hcal_tree::HBHERecHitTime(){
     c_HBHERecHitTime_ = true;
   }
   return HBHERecHitTime_;
+}
+
+std::vector<float>  & hcal_tree::HFPhase1RecHitEta(){
+  if(read_only_ && !c_HFPhase1RecHitEta_ && b_HFPhase1RecHitEta_){
+    b_HFPhase1RecHitEta_->GetEntry(entry_);
+    c_HFPhase1RecHitEta_ = true;
+  }
+  return HFPhase1RecHitEta_;
+}
+
+std::vector<float>  & hcal_tree::HFPhase1RecHitPhi(){
+  if(read_only_ && !c_HFPhase1RecHitPhi_ && b_HFPhase1RecHitPhi_){
+    b_HFPhase1RecHitPhi_->GetEntry(entry_);
+    c_HFPhase1RecHitPhi_ = true;
+  }
+  return HFPhase1RecHitPhi_;
 }
 
 std::vector<float>  & hcal_tree::HFRecHitEnergy(){

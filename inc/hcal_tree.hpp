@@ -137,6 +137,10 @@ public:
   std::vector<float>  & HBHERecHitPhi();
   std::vector<float>  const & HBHERecHitTime() const;
   std::vector<float>  & HBHERecHitTime();
+  std::vector<float>  const & HFPhase1RecHitEta() const;
+  std::vector<float>  & HFPhase1RecHitEta();
+  std::vector<float>  const & HFPhase1RecHitPhi() const;
+  std::vector<float>  & HFPhase1RecHitPhi();
   std::vector<float>  const & HFRecHitEnergy() const;
   std::vector<float>  & HFRecHitEnergy();
   std::vector<float>  const & HFRecHitEta() const;
@@ -496,6 +500,14 @@ private:
   std::vector<float>  *p_HBHERecHitTime_;
   TBranch *b_HBHERecHitTime_;
   mutable bool c_HBHERecHitTime_;
+  std::vector<float>  HFPhase1RecHitEta_;
+  std::vector<float>  *p_HFPhase1RecHitEta_;
+  TBranch *b_HFPhase1RecHitEta_;
+  mutable bool c_HFPhase1RecHitEta_;
+  std::vector<float>  HFPhase1RecHitPhi_;
+  std::vector<float>  *p_HFPhase1RecHitPhi_;
+  TBranch *b_HFPhase1RecHitPhi_;
+  mutable bool c_HFPhase1RecHitPhi_;
   std::vector<float>  HFRecHitEnergy_;
   std::vector<float>  *p_HFRecHitEnergy_;
   TBranch *b_HFRecHitEnergy_;

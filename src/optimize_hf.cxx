@@ -4,11 +4,13 @@
 
 #include "TFile.h"
 #include "TH1D.h"
+#include "TH2D.h"
 #include "TStyle.h"
 #include "TCanvas.h"
 #include "TLine.h"
 #include "TError.h"
 #include "TROOT.h"
+#include "TMath.h"
 
 #include "hcal_tree_noise.hpp"
 #include "utilities.hpp"
@@ -29,14 +31,25 @@ int main()
 { 
 
     gErrorIgnoreLevel=kError+1;
-/*
-    hcal_tree_noise tree("/Users/jaehyeok/scratch/results_9.root");
+
+    // ntuples without MET variable : make sure to removed lines with tree.NominalMET() 
+    // hcal_tree_noise tree("/net/cms2/cms2r0/jaehyeokyoo/hcal/jetht_nometvar/*.root");
+    // hcal_tree_noise tree("/net/cms2/cms2r0/jaehyeokyoo/hcal/jetht_nometvar/results_10.root");
+    // ntuples with MET variable 
+     hcal_tree_noise tree("/net/cms2/cms2r0/jaehyeokyoo/hcal/met/*.root");
+     //hcal_tree_noise tree("/net/cms2/cms2r0/jaehyeokyoo/hcal/singlemuon/*.root");
+    
+    //hcal_tree_noise tree("~/scratch/results_forwardjets.root");
     
     cout << "Analyzing " << tree.GetEntries() << " events" << endl;
 
     // define histograms 
     TH2D *h2_anode1[83][72][2]; // [ieta], [iphi], [depth]
     TH2D *h2_anode2[83][72][2]; 
+    TH2D *h2_asym[83][72][2]; 
+    TH2D *h2_asym_tdccut[83][72][2]; 
+    TH1D *h1_asym[83][72][2]; 
+    TH1D *h1_asym_tdccut[83][72][2]; 
     for(int ieta=-41; ieta<=41; ieta++)
     {
         for(int iphi=1; iphi<=72; iphi++)
@@ -46,28 +59,65 @@ int main()
                 h2_anode1[ieta+41][iphi-1][depth-1] 
                     = new TH2D( Form("h2_anode1_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
                                 Form("h2_anode1_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
-                                100, 0, 1000, 320, -110, 50);
+                                200, 0, 2000, 320, -110, 50);
                 h2_anode2[ieta+41][iphi-1][depth-1] 
                     = new TH2D( Form("h2_anode2_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
                                 Form("h2_anode2_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
-                                100, 0, 1000, 320, -110, 50);
+                                200, 0, 2000, 320, -110, 50);
+                h2_asym[ieta+41][iphi-1][depth-1] 
+                    = new TH2D( Form("h2_asym_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                Form("h2_asym_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                100, 0, 2000, 100, 0, 2000);
+                h2_asym_tdccut[ieta+41][iphi-1][depth-1] 
+                    = new TH2D( Form("h2_asym_tdccut_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                Form("h2_asym_tdccut_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                100, 0, 2000, 100, 0, 2000);
+                h1_asym[ieta+41][iphi-1][depth-1] 
+                    = new TH1D( Form("h1_asym_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                Form("h1_asym_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                100, -2, 2);
+                h1_asym_tdccut[ieta+41][iphi-1][depth-1] 
+                    = new TH1D( Form("h1_asym_tdccut_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                Form("h1_asym_tdccut_ieta%i_iphi%i_depth%i", ieta, iphi, depth),
+                                100, -2, 2);
             }
         }
     }
+    TH1D *h1_met_nohbhefilter = new TH1D( "h1_met_nohbhefilter", "h1_met_nohbhefilter", 100, 0, 500);
+    TH1D *h1_met = new TH1D( "h1_met", "h1_met", 100, 0, 500);
+    TH1D *h1_met_tdc = new TH1D( "h1_met_tdc", "h1_met_tdc", 100, 0, 500);
+    TH1D *h1_met_asym = new TH1D( "h1_met_asym", "h1_met_asym", 100, 0, 500);
+    TH1D *h1_met_both = new TH1D( "h1_met_both", "h1_met_both", 100, 0, 500);
+    TH1D *h1_met_cor = new TH1D( "h1_met_cor", "h1_met_cor", 100, -200, 200);
 
     // loop over tree
     for(unsigned int ientry=0; ientry<tree.GetEntries(); ientry++)
     //for(unsigned int ientry=0; ientry<100; ientry++)
     {
-        tree.GetEntry(ientry);  
+        if(ientry%10000==0) cout << ientry << "/" << tree.GetEntries()<< endl;
         
+        tree.GetEntry(ientry);  
+
+        cout << tree.NominalMET().at(0) << ", " <<  tree.NominalMET().at(1) 
+             << " = " << TMath::Sqrt(tree.NominalMET().at(0)*tree.NominalMET().at(0)
+                                    +tree.NominalMET().at(1)*tree.NominalMET().at(1)) << endl;
+
+
+        // Select only colliding BXs
+        if(!isCollidingBX(tree.run(), tree.bx())) continue;
+
+        // FIXME: need to apply HBHE event filters? 
+
+        // corrections to the nominal MET
+        float METx_tdc=0.;
+        float METy_tdc=0.;
+        float METx_asym=0.;
+        float METy_asym=0.;
+        float METx_both=0.;
+        float METy_both=0.;
+
         for(unsigned int irec=0; irec<tree.HFPhase1RecHitDepth().size(); irec++) 
         { 
-            //if( tree.HFPhase1RecHitIEta().at(irec)!=IETA ||
-            //    tree.HFPhase1RecHitIPhi().at(irec)!=IPHI ||
-            //    tree.HFPhase1RecHitDepth().at(irec)!=DEPTH
-            //  ) continue;
-
             if(0)  // debug  
             {    
                 cout << ientry << " :: " 
@@ -83,6 +133,66 @@ int main()
                      << tree.HFPhase1RecHitQie10Energy().at(irec).at(1) << endl;   
             }
 
+            float METx_tdc_cor=0.;
+            float METy_tdc_cor=0.;
+            float METx_asym_cor=0.;
+            float METy_asym_cor=0.;
+            // Calculate corrections 
+            if(!passTDCcut(tree.HFPhase1RecHitIEta().at(irec), 
+                          tree.HFPhase1RecHitQie10Charge().at(irec).at(0),
+                          tree.HFPhase1RecHitQie10Time().at(irec).at(0)))
+            {
+               METx_tdc_cor = getMETx(tree.HFPhase1RecHitEta().at(irec),
+                                      tree.HFPhase1RecHitPhi().at(irec),
+                                      tree.HFPhase1RecHitQie10Energy().at(irec).at(0));
+               METy_tdc_cor = getMETy(tree.HFPhase1RecHitEta().at(irec),
+                                      tree.HFPhase1RecHitPhi().at(irec),
+                                      tree.HFPhase1RecHitQie10Energy().at(irec).at(0));
+            }
+            if(!passTDCcut(tree.HFPhase1RecHitIEta().at(irec), 
+                          tree.HFPhase1RecHitQie10Charge().at(irec).at(1),
+                          tree.HFPhase1RecHitQie10Time().at(irec).at(1))) 
+            {
+               METx_tdc_cor = METx_tdc_cor + getMETx(tree.HFPhase1RecHitEta().at(irec),
+                                                     tree.HFPhase1RecHitPhi().at(irec),
+                                                     tree.HFPhase1RecHitQie10Energy().at(irec).at(1));
+               METy_tdc_cor = METy_tdc_cor + getMETy(tree.HFPhase1RecHitEta().at(irec),
+                                                     tree.HFPhase1RecHitPhi().at(irec),
+                                                     tree.HFPhase1RecHitQie10Energy().at(irec).at(1));
+            }
+
+            if(!passAsymcut(tree.HFPhase1RecHitIEta().at(irec),
+                            tree.HFPhase1RecHitDepth().at(irec),
+                            tree.HFPhase1RecHitQie10Charge().at(irec).at(0), 
+                            tree.HFPhase1RecHitQie10Charge().at(irec).at(1)))
+            {
+               METx_asym_cor = METx_asym_cor + getMETx(tree.HFPhase1RecHitEta().at(irec),
+                                                       tree.HFPhase1RecHitPhi().at(irec),
+                                                       tree.HFPhase1RecHitQie10Energy().at(irec).at(1));
+               METy_asym_cor = METy_asym_cor + getMETy(tree.HFPhase1RecHitEta().at(irec),
+                                                       tree.HFPhase1RecHitPhi().at(irec),
+                                                       tree.HFPhase1RecHitQie10Energy().at(irec).at(1));
+            }
+
+            METx_tdc = METx_tdc + METx_tdc_cor;
+            METy_tdc = METy_tdc + METy_tdc_cor;
+            METx_asym = METx_asym + METx_asym_cor;
+            METy_asym = METy_asym + METy_asym_cor; 
+            // in case channel fails both cuts, need to correct only once 
+            // to avoid double correction (METx_tdc_cor=METx_asym_cor)
+            if((METx_tdc_cor!=0 || METy_tdc_cor!=0) && (METx_asym_cor!=0 || METy_asym_cor!=0))
+            {
+                METx_both = METx_both + METx_tdc_cor;
+                METy_both = METy_both + METy_tdc_cor;
+            }
+            else 
+            { 
+                METx_both = METx_both + METx_tdc_cor + METx_asym_cor;
+                METy_both = METy_both + METy_tdc_cor + METy_asym_cor;
+            }
+            //if(METx_tdc_cor!=0 || METy_tdc_cor!=0) cout << "TDC cor: " << METx_tdc_cor << ", " << METy_tdc_cor << endl;
+            //if(METx_asym_cor!=0 || METy_asym_cor!=0) cout << "Asym cor: " << METx_asym_cor << ", " << METy_asym_cor << endl;
+
             //
             int index_ieta=tree.HFPhase1RecHitIEta().at(irec)+41;
             int index_iphi=tree.HFPhase1RecHitIPhi().at(irec)-1;
@@ -92,8 +202,64 @@ int main()
                      tree.HFPhase1RecHitQie10Time().at(irec).at(0), 1);
             FillTH2D(h2_anode2[index_ieta][index_iphi][index_depth], 
                      tree.HFPhase1RecHitQie10Charge().at(irec).at(1), 
-                     tree.HFPhase1RecHitQie10Time().at(irec).at(1), 1);
+                     tree.HFPhase1RecHitQie10Time().at(irec).at(1), 1); 
+            //cout << tree.HFPhase1RecHitIEta().at(irec) << " " << tree.HFPhase1RecHitIPhi().at(irec) << " " 
+            //     << tree.HFPhase1RecHitDepth().at(irec) << " " << tree.HFPhase1RecHitQie10Charge().at(irec).size() 
+            //     << " :: " << tree.HFPhase1RecHitQie10Charge().at(irec).at(0) << " " 
+            //     << tree.HFPhase1RecHitQie10Charge().at(irec).at(1) << endl;
+  
+            if(tree.HFPhase1RecHitQie10Time().at(irec).at(0)>0 && tree.HFPhase1RecHitQie10Time().at(irec).at(1)>0)
+                FillTH2D(h2_asym[index_ieta][index_iphi][index_depth],
+                         tree.HFPhase1RecHitQie10Charge().at(irec).at(0), 
+                         tree.HFPhase1RecHitQie10Charge().at(irec).at(1), 1);
+            
+            if((tree.HFPhase1RecHitQie10Charge().at(irec).at(0)+tree.HFPhase1RecHitQie10Charge().at(irec).at(1))>400) 
+            {
+                if(tree.HFPhase1RecHitQie10Time().at(irec).at(0)>0 && tree.HFPhase1RecHitQie10Time().at(irec).at(1)>0)
+                    FillTH1D(h1_asym[index_ieta][index_iphi][index_depth], 
+                             (tree.HFPhase1RecHitQie10Charge().at(irec).at(0)-tree.HFPhase1RecHitQie10Charge().at(irec).at(1))/
+                             (tree.HFPhase1RecHitQie10Charge().at(irec).at(0)+tree.HFPhase1RecHitQie10Charge().at(irec).at(1)), 1);
+            }
+            
+            if(passTDCcut(tree.HFPhase1RecHitIEta().at(irec), 
+                          //tree.HFPhase1RecHitIPhi().at(irec),
+                          //tree.HFPhase1RecHitDepth().at(irec),
+                          tree.HFPhase1RecHitQie10Charge().at(irec).at(0),
+                          tree.HFPhase1RecHitQie10Time().at(irec).at(0))
+             && passTDCcut(tree.HFPhase1RecHitIEta().at(irec), 
+                          //tree.HFPhase1RecHitIPhi().at(irec),
+                          //tree.HFPhase1RecHitDepth().at(irec),
+                          tree.HFPhase1RecHitQie10Charge().at(irec).at(1),
+                          tree.HFPhase1RecHitQie10Time().at(irec).at(1))
+                          )
+           { 
+                if(tree.HFPhase1RecHitQie10Time().at(irec).at(0)>0 && tree.HFPhase1RecHitQie10Time().at(irec).at(1)>0)
+                    FillTH2D(h2_asym_tdccut[index_ieta][index_iphi][index_depth], 
+                             tree.HFPhase1RecHitQie10Charge().at(irec).at(0), 
+                             tree.HFPhase1RecHitQie10Charge().at(irec).at(1), 1);
+                if((tree.HFPhase1RecHitQie10Charge().at(irec).at(0)+tree.HFPhase1RecHitQie10Charge().at(irec).at(1))>400) 
+                {
+                    if(tree.HFPhase1RecHitQie10Time().at(irec).at(0)>0 && tree.HFPhase1RecHitQie10Time().at(irec).at(1)>0)
+                        FillTH1D(h1_asym_tdccut[index_ieta][index_iphi][index_depth], 
+                                 (tree.HFPhase1RecHitQie10Charge().at(irec).at(0)-tree.HFPhase1RecHitQie10Charge().at(irec).at(1))/
+                                 (tree.HFPhase1RecHitQie10Charge().at(irec).at(0)+tree.HFPhase1RecHitQie10Charge().at(irec).at(1)), 1);
+                }
+           } 
         }
+
+        // recalculate MET
+        float MET      = getMET(tree.NominalMET().at(0), tree.NominalMET().at(1));
+        float MET_tdc  = getMET(tree.NominalMET().at(0)+METx_tdc, tree.NominalMET().at(1)+METy_tdc);
+        float MET_asym = getMET(tree.NominalMET().at(0)+METx_asym, tree.NominalMET().at(1)+METy_asym);
+        float MET_both = getMET(tree.NominalMET().at(0)+METx_both, tree.NominalMET().at(1)+METy_both); 
+    
+        FillTH1D(h1_met_nohbhefilter, MET, 1);
+        if(!tree.OfficialDecisionRun2L().at(0) || !tree.IsoNoiseFilterDecision().at(0)) continue;
+        FillTH1D(h1_met, MET, 1);
+        FillTH1D(h1_met_tdc, MET_tdc, 1);
+        FillTH1D(h1_met_asym, MET_asym, 1);
+        FillTH1D(h1_met_both, MET_both, 1);
+        if(MET-MET_both) FillTH1D(h1_met_cor, MET-MET_both, 1);
     }
  
     TFile *HistFile = new TFile("optimize_hf.root", "RECREATE");
@@ -114,12 +280,26 @@ int main()
                 h2_anode1[ieta+41][iphi-1][depth-1]->Write();
                 h2_anode2[ieta+41][iphi-1][depth-1]->SetDirectory(0);
                 h2_anode2[ieta+41][iphi-1][depth-1]->Write();
+                h2_asym[ieta+41][iphi-1][depth-1]->SetDirectory(0);
+                h2_asym[ieta+41][iphi-1][depth-1]->Write();
+                h2_asym_tdccut[ieta+41][iphi-1][depth-1]->SetDirectory(0);
+                h2_asym_tdccut[ieta+41][iphi-1][depth-1]->Write();
+                h1_asym[ieta+41][iphi-1][depth-1]->SetDirectory(0);
+                h1_asym[ieta+41][iphi-1][depth-1]->Write();
+                h1_asym_tdccut[ieta+41][iphi-1][depth-1]->SetDirectory(0);
+                h1_asym_tdccut[ieta+41][iphi-1][depth-1]->Write();
             }
         }
     }
+    h1_met_nohbhefilter->SetDirectory(0); h1_met_nohbhefilter->Write();
+    h1_met->SetDirectory(0); h1_met->Write();
+    h1_met_tdc->SetDirectory(0); h1_met_tdc->Write();
+    h1_met_asym->SetDirectory(0); h1_met_asym->Write();
+    h1_met_both->SetDirectory(0); h1_met_both->Write();
+    h1_met_cor->SetDirectory(0); h1_met_cor->Write();
     HistFile->Close();
-*/
 
+/*
   // 
   // Read histograms from a file
   //
@@ -135,11 +315,11 @@ int main()
          h2_anode1[ieta+41][depth-1] 
              = new TH2D( Form("h2_anode1_ieta%i_depth%i", ieta, depth),
                          Form("h2_anode1_ieta%i_depth%i", ieta, depth),
-                         100, 0, 1000, 320, -110, 50);
+                         200, 0, 2000, 320, -110, 50);
          h2_anode2[ieta+41][depth-1] 
              = new TH2D( Form("h2_anode2_ieta%i_depth%i", ieta, depth),
                          Form("h2_anode2_ieta%i_depth%i", ieta, depth),
-                         100, 0, 1000, 320, -110, 50); 
+                         200, 0, 2000, 320, -110, 50); 
         
         for(int iphi=1; iphi<=72; iphi++) 
         { 
@@ -151,11 +331,8 @@ int main()
         }
      }
   }
-
+*/
   
-
-h2_anode2_ieta41_iphi51_depth2
-
 
 /*
     //

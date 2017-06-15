@@ -2,6 +2,7 @@
 #include "TH1D.h" 
 #include "TH2D.h" 
 #include "TString.h" 
+#include "TMath.h" 
 
 //
 //
@@ -68,6 +69,48 @@ bool passHBHEIso(int NumIsolatedNoiseChannels,
     return pass;
 }
 
+bool passTDCcut(int ieta, /*int iphi, int depth,*/ float charge, float time) 
+{ 
+    if(ieta==29 || ieta==-29) return true;
+    else if(charge>200 && time>0 && time<4) return false; 
+    else if(time>25) return false; 
+    else return true;
+}
+
+bool passAsymcut(int ieta, int depth, float q1, float q2) 
+{
+    float R = (q1-q2)/(q1+q2); 
+
+    //if((q1>400 || q2>400) && (R>0.6 || R<-0.6)) return false; 
+    // else return false; 
+    if (ieta>32 && depth==1) return true;
+    else if (ieta>38 && depth==2) return true;
+    else if (ieta<-32 && depth==1) return true;
+    else if (ieta<-38 && depth==2) return true;
+    else if ((q1+q2)>400 && (R>0.6 || R<-0.6)) return false;
+    else return true;
+}
+
+float getMETx(float eta, float phi, float energy)
+{  
+    if(0) 
+    {
+        std::cout << energy << ", " << eta << ", " << phi << std::endl;
+        std::cout << energy << " / " << TMath::CosH(eta) << " x " <<TMath::Cos(phi) << std::endl;
+    }
+    return energy/TMath::CosH(eta)*TMath::Cos(phi);
+}
+
+float getMETy(float eta, float phi, float energy)
+{ 
+    return energy/TMath::CosH(eta)*TMath::Sin(phi);
+}
+
+float getMET(float METx, float METy)
+{ 
+    return TMath::Sqrt(METx*METx+METy*METy);
+}
+
 bool flagWordDecoder( int word, unsigned int bitNo )
 {
     if( ((word >> bitNo ) & 1) > 0 ) return true;
@@ -125,7 +168,8 @@ void FillTH1D(TH1D* &h1, double var, double weight)
 //
 // Fill TH2D
 //
-void FillTH2D(TH2D* &h2, double varX, double varY, double weight){
+void FillTH2D(TH2D* &h2, double varX, double varY, double weight)
+{
     if(varX >= h2->GetXaxis()->GetBinUpEdge(h2->GetXaxis()->GetNbins()))
         varX=h2->GetXaxis()->GetBinUpEdge(h2->GetXaxis()->GetNbins())-0.00001;
     if(varY >= h2->GetYaxis()->GetBinUpEdge(h2->GetYaxis()->GetNbins()))
@@ -137,3 +181,91 @@ void FillTH2D(TH2D* &h2, double varX, double varY, double weight){
     h2->Fill(varX, varY, weight);
 }
 
+bool isCollidingBX(int run, int bx)
+{ 
+//       Fill 5722: 295436 - 295463 
+//       [32, 79, 126, 173, 220, 267, 314, 914, 961, 1008, 1055, 1102, 1149, 1196, 1808, 1855, 1902, 1949, 1996, 2043, 2090, 2702, 2749, 2796, 2843, 2890, 2937, 2984]
+//       [43, 90, 137, 184, 231, 278, 325, 925, 972, 1019, 1066, 1113, 1160, 1207, 1819, 1866, 1913, 1960, 2007, 2054, 2101, 2713, 2760, 2807, 2854, 2901, 2948, 2995]
+      if (run>=295436 && run<=295463) 
+      {
+        if( (bx>=32   && bx<=43)   || 
+            (bx>=79   && bx<=90)   || 
+            (bx>=126  && bx<=137)  || 
+            (bx>=173  && bx<=184)  || 
+            (bx>=220  && bx<=231)  || 
+            (bx>=267  && bx<=278)  || 
+            (bx>=314  && bx<=325)  || 
+            (bx>=914  && bx<=925)  || 
+            (bx>=961  && bx<=972)  || 
+            (bx>=1008 && bx<=1019) || 
+            (bx>=1055 && bx<=1066) || 
+            (bx>=1102 && bx<=1113) || 
+            (bx>=1149 && bx<=1160) || 
+            (bx>=1196 && bx<=1207) || 
+            (bx>=1808 && bx<=1819) || 
+            (bx>=1855 && bx<=1866) || 
+            (bx>=1902 && bx<=1913) || 
+            (bx>=1949 && bx<=1960) || 
+            (bx>=1996 && bx<=2007) || 
+            (bx>=2043 && bx<=2054) || 
+            (bx>=2090 && bx<=2101) || 
+            (bx>=2702 && bx<=2713) || 
+            (bx>=2749 && bx<=2760) || 
+            (bx>=2796 && bx<=2807) || 
+            (bx>=2843 && bx<=2854) || 
+            (bx>=2890 && bx<=2901) || 
+            (bx>=2937 && bx<=2948) || 
+            (bx>=2984 && bx<=2995) 
+        ) return true;
+        else return false;
+      }
+//       Fill 5730: 295600 - 295655
+//       [146, 1004, 1231, 1898, 2125, 2792, 3019]
+//       [157, 1051, 1278, 1945, 2172, 2839, 3066]
+//       Fill 5737: 295953 - 295979
+//       [146, 1004, 1231, 1898, 2125, 2792, 3019]
+//       [157, 1051, 1278, 1945, 2172, 2839, 3066]
+      else if (run>=295600 && run<=295979) 
+      {
+        if( (bx>=146  && bx<=157)  || 
+            (bx>=1004 && bx<=1051) || 
+            (bx>=1231 && bx<=1278) || 
+            (bx>=1898 && bx<=1945) || 
+            (bx>=2125 && bx<=2172) || 
+            (bx>=2792 && bx<=2839) || 
+            (bx>=3019 && bx<=3066)  
+        ) return true;
+        else return false;
+      }
+//       Fill 5746: 296070 - 296116
+//       [41, 183, 266, 349, 1077, 1160, 1243, 1971, 2054, 2137, 2865, 2948, 3031]
+//       [52, 230, 313, 396, 1124, 1207, 1290, 2018, 2101, 2184, 2912, 2995, 3078]
+//       Fill 5749: 296168
+//       [41, 183, 266, 349, 1077, 1160, 1243, 1971, 2054, 2137, 2865, 2948, 3031]
+//       [52, 230, 313, 396, 1124, 1207, 1290, 2018, 2101, 2184, 2912, 2995, 3078]
+//       Fill 5750: 296172 - 296174   
+//       [41, 183, 266, 349, 1077, 1160, 1243, 1971, 2054, 2137, 2865, 2948, 3031]
+//       [52, 230, 313, 396, 1124, 1207, 1290, 2018, 2101, 2184, 2912, 2995, 3078]
+      else if (run>=296070 && run<=296174) 
+      {
+        if( (bx>=41   && bx<=52)   || 
+            (bx>=183  && bx<=230)  || 
+            (bx>=266  && bx<=313)  || 
+            (bx>=349  && bx<=396)  || 
+            (bx>=1077 && bx<=1124) || 
+            (bx>=1160 && bx<=1207) || 
+            (bx>=1243 && bx<=1290) || 
+            (bx>=1971 && bx<=2018) || 
+            (bx>=2054 && bx<=2101) || 
+            (bx>=2137 && bx<=2184) || 
+            (bx>=2865 && bx<=2912) || 
+            (bx>=2948 && bx<=2995) || 
+            (bx>=3031 && bx<=3078)  
+        ) return true;
+        else return false;
+      }
+     else 
+     { 
+       return false;
+     }
+}
