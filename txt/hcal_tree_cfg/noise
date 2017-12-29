@@ -121,3 +121,4 @@ std::vector<int> HFPhase1RecHitIPhi
 std::vector<int> HFPhase1RecHitDepth
 std::vector<float> HFPhase1RecHitEta
 std::vector<float> HFPhase1RecHitPhi
+std::vector<int> Nvtx
