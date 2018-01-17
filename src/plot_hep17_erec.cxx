@@ -127,7 +127,7 @@ int main()
     l1->AddEntry(h1_zero[5][0][0],   " ZeroBias",  "l");
     l1->AddEntry(h1_jetht[5][0][0],  " JetHT",     "l");
 //    l1->AddEntry(h1_met[5][0][0],    " MET",     "l");
-//    l1->AddEntry(h1_pion[5][0][0],   " Pion MC",     "l");
+    l1->AddEntry(h1_pion[5][0][0],   " Pion MC",     "l");
 
     //
     for(int ieta=16; ieta<30; ieta++)
@@ -144,10 +144,10 @@ int main()
         {
           if(h1_zero[ieta-16][iphi-63][depth-1]->Integral()!=0) 
           { 
-            //h1_zero[ieta-16][iphi-63][depth-1]->Scale(1./h1_zero[ieta-16][iphi-63][depth-1]->Integral());
-            //h1_jetht[ieta-16][iphi-63][depth-1]->Scale(h1_zero[ieta-16][iphi-63][depth-1]->Integral(1,5)/h1_jetht[ieta-16][iphi-63][depth-1]->Integral(1,5));
-            //h1_met[ieta-16][iphi-63][depth-1]->Scale(h1_zero[ieta-16][iphi-63][depth-1]->Integral(1,5)/h1_met[ieta-16][iphi-63][depth-1]->Integral(1,5));
-            //h1_pion[ieta-16][iphi-63][depth-1]->Scale(h1_zero[ieta-16][iphi-63][depth-1]->Integral(1,5)/h1_pion[ieta-16][iphi-63][depth-1]->Integral(1,5));
+            h1_zero[ieta-16][iphi-63][depth-1]->Scale(1./h1_zero[ieta-16][iphi-63][depth-1]->Integral());
+            h1_jetht[ieta-16][iphi-63][depth-1]->Scale(h1_zero[ieta-16][iphi-63][depth-1]->Integral(2,6)/h1_jetht[ieta-16][iphi-63][depth-1]->Integral(2,6));
+            h1_met[ieta-16][iphi-63][depth-1]->Scale(h1_zero[ieta-16][iphi-63][depth-1]->Integral(2,6)/h1_met[ieta-16][iphi-63][depth-1]->Integral(2,6));
+            h1_pion[ieta-16][iphi-63][depth-1]->Scale(h1_zero[ieta-16][iphi-63][depth-1]->Integral(2,6)/h1_pion[ieta-16][iphi-63][depth-1]->Integral(2,6));
             h1_jetht_ratio[iphi-63][depth-1] = static_cast<TH1D*>(h1_jetht[ieta-16][iphi-63][depth-1]->Clone()); 
             h1_jetht_ratio[iphi-63][depth-1]->Divide(h1_zero[ieta-16][iphi-63][depth-1]);
             h1_met_ratio[iphi-63][depth-1] = static_cast<TH1D*>(h1_met[ieta-16][iphi-63][depth-1]->Clone()); 
@@ -164,14 +164,14 @@ int main()
             //        pad1->SetLeftMargin(0.2);
             pad1->Draw();
             pad1->cd();
-            pad1->cd()->SetLogx(0);
+            pad1->cd()->SetLogx(1);
             pad1->cd()->SetLogy(1); 
             h1_zero[ieta-16][iphi-63][depth-1]->GetXaxis()->SetLabelSize(0.0);
             h1_zero[ieta-16][iphi-63][depth-1]->GetYaxis()->SetLabelSize(0.06);
-            h1_zero[ieta-16][iphi-63][depth-1]->Draw("e");
-            h1_jetht[ieta-16][iphi-63][depth-1]->Draw("e same");
+            h1_zero[ieta-16][iphi-63][depth-1]->Draw("hist");
+            h1_jetht[ieta-16][iphi-63][depth-1]->Draw("hist same");
 //            h1_met[ieta-16][iphi-63][depth-1]->Draw("e same");
-//            h1_pion[ieta-16][iphi-63][depth-1]->Draw("e same");
+            h1_pion[ieta-16][iphi-63][depth-1]->Draw("hist same");
             l1->Draw("same");
             // pad 2 
             //          c->cd();
@@ -183,7 +183,7 @@ int main()
             pad2->SetBottomMargin(0.4); 
             pad2->Draw();
             pad2->cd();
-            pad2->cd()->SetLogx(0);
+            pad2->cd()->SetLogx(1);
             h1_jetht_ratio[iphi-63][depth-1]->SetTitle("");
             h1_jetht_ratio[iphi-63][depth-1]->SetMaximum(4);
             h1_jetht_ratio[iphi-63][depth-1]->SetMinimum(0); 
@@ -197,7 +197,7 @@ int main()
             h1_jetht_ratio[iphi-63][depth-1]->GetXaxis()->SetTitleOffset(1.2);
             h1_jetht_ratio[iphi-63][depth-1]->Draw("e");
 //            h1_met_ratio[iphi-63][depth-1]->Draw("e same");
-//            h1_pion_ratio[iphi-63][depth-1]->Draw("e same");
+            h1_pion_ratio[iphi-63][depth-1]->Draw("e same");
             //          c->Print(Form("plots/h1_erec_ieta%i_iphi%i_depth%i.pdf", ieta, iphi, depth));
             //          delete c;
           }
@@ -228,6 +228,7 @@ int main()
           cout << "ZB: " << Form("ieta %i, iphi%i, depth%i, nvtx%i", ieta,iphi,depth,invtx) << endl;
           h1_zero_nvtx1[ieta-16][iphi-63][depth-1]
             = renormTH1D(static_cast<TH1D*>(infile->Get(Form("h1_zero_erec_ieta%i_iphi%i_depth%i_nvtx%i", ieta,iphi,depth,invtx))));
+          h1_zero_nvtx1[ieta-16][iphi-63][depth-1]->Scale(1./h1_zero_nvtx1[ieta-16][iphi-63][depth-1]->Integral());
           h1_zero_nvtx1[ieta-16][iphi-63][depth-1]->Rebin(rebin);
           h1cosmetic(h1_zero_nvtx1[ieta-16][iphi-63][depth-1],  Form("ieta=%i,iphi=%i,depth=%i", ieta,iphi,depth), kBlue, 1, 0, "E_{rechit} [GeV]"); 
           h1_zero_nvtx1[ieta-16][iphi-63][depth-1]->SetMarkerSize(0); 
@@ -243,6 +244,7 @@ int main()
           cout << "ZB: " << Form("ieta %i, iphi%i, depth%i, nvtx%i", ieta,iphi,depth,invtx) << endl;
           h1_zero_nvtx2[ieta-16][iphi-63][depth-1]
             = renormTH1D(static_cast<TH1D*>(infile->Get(Form("h1_zero_erec_ieta%i_iphi%i_depth%i_nvtx%i", ieta,iphi,depth,invtx))));
+          h1_zero_nvtx2[ieta-16][iphi-63][depth-1]->Scale(1./h1_zero_nvtx2[ieta-16][iphi-63][depth-1]->Integral());
           h1_zero_nvtx2[ieta-16][iphi-63][depth-1]->Rebin(rebin);
           h1cosmetic(h1_zero_nvtx2[ieta-16][iphi-63][depth-1],  Form("ieta=%i,iphi=%i,depth=%i", ieta,iphi,depth), kRed, 1, 0, "E_{rechit} [GeV]"); 
           h1_zero_nvtx2[ieta-16][iphi-63][depth-1]->SetMarkerSize(0); 
@@ -280,7 +282,7 @@ int main()
     {
       for(int depth=1; depth<8; depth++) 
       {
-        if(h1_zero_nvtx1[ieta-16][iphi-63][depth-1]->Integral()!=0) 
+        if(h1_zero_nvtx2[ieta-16][iphi-63][depth-1]->Integral()!=0) 
         { 
           h1_zero_ratio[iphi-63][depth-1] = static_cast<TH1D*>(h1_zero_nvtx2[ieta-16][iphi-63][depth-1]->Clone()); 
           h1_zero_ratio[iphi-63][depth-1]->Divide(h1_zero_nvtx1[ieta-16][iphi-63][depth-1]);

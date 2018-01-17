@@ -122,3 +122,7 @@ std::vector<int> HFPhase1RecHitDepth
 std::vector<float> HFPhase1RecHitEta
 std::vector<float> HFPhase1RecHitPhi
 std::vector<int> Nvtx
+std::vector<int> QIE11DigiIEta
+std::vector<int> QIE11DigiIPhi
+std::vector<int> QIE11DigiDepth
+std::vector<std::vector<double> > QIE11DigiFC
