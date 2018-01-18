@@ -126,5 +126,10 @@ std::vector<int> QIE10DigiIPhi
 std::vector<int> QIE10DigiDepth
 std::vector<std::vector<int> > QIE10DigiLETDC
 std::vector<std::vector<double> > QIE10DigiFC
--std::vector<float> HFPhase1RecHitEta
--std::vector<float> HFPhase1RecHitPhi
+std::vector<float> HFPhase1RecHitEta
+std::vector<float> HFPhase1RecHitPhi
+std::vector<int> QIE11DigiIEta
+std::vector<int> QIE11DigiIPhi
+std::vector<int> QIE11DigiDepth
+std::vector<std::vector<double> > QIE11DigiFC
+std::vector<int> Nvtx
