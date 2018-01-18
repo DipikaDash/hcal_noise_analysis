@@ -119,5 +119,12 @@ std::vector<std::vector<float> > HFPhase1RecHitQie10Time
 std::vector<int> HFPhase1RecHitIEta
 std::vector<int> HFPhase1RecHitIPhi
 std::vector<int> HFPhase1RecHitDepth
-std::vector<float> HFPhase1RecHitEta
-std::vector<float> HFPhase1RecHitPhi
+std::vector<double> HFPhase1RecHitEta
+std::vector<double> HFPhase1RecHitPhi
+std::vector<int> QIE10DigiIEta
+std::vector<int> QIE10DigiIPhi
+std::vector<int> QIE10DigiDepth
+std::vector<std::vector<int> > QIE10DigiLETDC
+std::vector<std::vector<double> > QIE10DigiFC
+-std::vector<float> HFPhase1RecHitEta
+-std::vector<float> HFPhase1RecHitPhi
