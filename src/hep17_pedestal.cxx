@@ -26,7 +26,8 @@ int main()
   
   gErrorIgnoreLevel=kError+1;
 
-  hcal_tree_noise ped("/homes/jaehyeokyoo/scratch/SPE_gsel0_306233.root");
+  //hcal_tree_noise ped("/homes/jaehyeokyoo/scratch/SPE_gsel0_306233.root");
+  hcal_tree_noise ped("/Users/jaehyeok/Downloads/PFGtuples/SPE_gsel0_306233.root");
 
   // Need Rrec for 
   //  - each channel 
@@ -81,15 +82,13 @@ int main()
   }
  
   //
-  TH1D *h1_frac = new TH1D("h1_frac","h1_frac",20,0,1);
+  TH1D *h1_frac = new TH1D("h1_frac","h1_frac",20,0,0.3);
   
   //
   // pedestal distributions 
   //
   for(int ieta=16; ieta<30; ieta++)
   { 
-    int cut=76;
-    if(ieta>16 && doRaddam) cut = 76*raddam[ieta-17];
     TCanvas *c = new TCanvas("c","c",3200,1800);
     c->SetGrid(1,1); 
     c->Divide(7,4); 
@@ -98,6 +97,9 @@ int main()
       for(int depth=1; depth<8; depth++)
       {
         if(h1[ieta-16][iphi-63][depth-1]->Integral()==0) continue;
+        int cut=h1[ieta-16][iphi-63][depth-1]->GetMean()/4;
+        cut=cut+76;
+        if(ieta>16 && doRaddam) cut = cut*raddam[ieta-17];
         c->cd((iphi-63)*7+depth);
         if(!do8ts) c->cd((iphi-63)*7+depth)->SetLogy(1);
         h1[ieta-16][iphi-63][depth-1]->SetLineColor(kBlack);
@@ -108,7 +110,7 @@ int main()
                             h1[ieta-16][iphi-63][depth-1]->GetRMS(),
                             h1[ieta-16][iphi-63][depth-1]->Integral(cut,1000)/h1[ieta-16][iphi-63][depth-1]->Integral()*100));
         h1[ieta-16][iphi-63][depth-1]->Draw("hist"); 
-        cout << Form("(%i,%i,%i) %.4f %%", ieta,iphi,depth,h1[ieta-16][iphi-63][depth-1]->Integral(cut,1000)/h1[ieta-16][iphi-63][depth-1]->Integral()*100) << endl;
+        cout << cut << " " << Form("(%i,%i,%i) %.4f %%", ieta,iphi,depth,h1[ieta-16][iphi-63][depth-1]->Integral(cut,1000)/h1[ieta-16][iphi-63][depth-1]->Integral()*100) << endl;
         FillTH1D(h1_frac,h1[ieta-16][iphi-63][depth-1]->Integral(cut,1000)/h1[ieta-16][iphi-63][depth-1]->Integral()*100,1.);
       }
     }
