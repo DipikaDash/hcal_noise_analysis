@@ -29,6 +29,7 @@ std::vector<double> JetPhi
 std::vector<double> JetPt
 std::vector<double> NominalMET
 std::vector<double> HBHERecHitEnergyRaw
+std::vector<double> HBHERecHitEnergyAux
 std::vector<double> IsolatedNoiseSumE
 std::vector<double> IsolatedNoiseSumEt
 std::vector<double> MaxE2E10
@@ -64,6 +65,7 @@ std::vector<float> HFRecHitPhi
 std::vector<float> HFRecHitTime
 std::vector<int> JetN60
 std::vector<int> JetN90
+std::vector<int> HBHERecHitSevLvl
 std::vector<int> HBHERecHitAux
 std::vector<int> HBHERecHitDepth
 std::vector<int> HBHERecHitFlags
