@@ -133,3 +133,7 @@ std::vector<int> QIE11DigiIEta
 std::vector<int> QIE11DigiIPhi
 std::vector<int> QIE11DigiDepth
 std::vector<std::vector<double> > QIE11DigiFC
+std::vector<int> HBHEDigiIEta
+std::vector<int> HBHEDigiIPhi
+std::vector<int> HBHEDigiDepth
+std::vector<std::vector<float> > HBHEDigiAllFC
