@@ -134,6 +134,18 @@ void h1cosmetic(TH1D* &h1, const char* title, int linecolor=kBlack, int linewidt
 }
 
 //
+// h2 cosmetics
+//
+void h2cosmetic(TH2D* &h2, const char* title, TString Xvar="", TString Yvar="", TString Zvar="Events/bin")
+{
+    h2->SetTitle(title);
+    h2->SetXTitle(Xvar);
+    h2->SetYTitle(Yvar);
+    h2->SetZTitle(Zvar);
+    h2->SetStats(0);
+}
+
+//
 //TH1D initialization
 //
 TH1D* InitTH1D(char* Name, char* Title, int Nbins, double XMin, double XMax)
