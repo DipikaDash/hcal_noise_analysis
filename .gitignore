@@ -1,5 +1,6 @@
 hcal_tree*.*pp
 plots/*
+plots*
 run/*.exe
 
 # Compiled Object files
