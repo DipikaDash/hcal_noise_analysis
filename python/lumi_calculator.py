@@ -41,5 +41,5 @@ with open(inFileName) as runlist:
         print "Average dose rate: ",totallumi/totaltime," pb-1 per hour"
 
         outFile.write("%s %s %s" %(str(int(runnum)),totallumi/1000., str(totallumi/totaltime)+"\n"))
-        
+
 outFile.close()
