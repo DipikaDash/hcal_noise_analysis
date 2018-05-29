@@ -5,8 +5,8 @@ from array import array
 
 ## This function takes RunList.txt and FillReport.txt and returns a list of integrated luminosities for each run
 
-inFileName = "RunList.txt"
-outFileName = "LumiList.txt"
+inFileName = "../txt/RunList.txt"
+outFileName = "../txt/LumiList.txt"
 
 if len(sys.argv) >= 2:
     inFileName = sys.argv[1]
@@ -19,7 +19,7 @@ with open(inFileName) as runlist:
         print "Run ", str(int(runnum))
         totallumi=0.
         totaltime=0.
-        with open("FillReport.txt") as fills:
+        with open("../txt/FillReport.txt") as fills:
             for fill in fills:
                 if "Fill" in fill.split("\t")[0]: continue
                 #print len(fill.split("\t"))
