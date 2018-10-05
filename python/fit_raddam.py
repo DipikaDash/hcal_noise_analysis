@@ -22,11 +22,11 @@ ROOT.gStyle.SetGridStyle(3)
 ROOT.gStyle.SetGridColor(13)
 #ROOT.gStyle.SetOptStat(1001101)
 
-#### Time mode: change X axis from 
+#### Time mode: change X axis from
 timeMode=False
 zoomTS2=False
 zoomNov=False
-inputdir = "/Users/heller/HCAL/HEP17_peds_noskim/hists/"; 
+inputdir = "/homes/jaehyeokyoo/HCAL/hcal_noise_analysis/data/";
 runs=[]
 doses= []
 doseserr= []
@@ -34,9 +34,10 @@ days=[]
 dayserr=[]
 
 #### Break apart the linear fit into 3 distinct regions, independent fits
-fitRange = [[0,15.6], ### fb-1
-			[15.6,24.115], #adjust lumi in LumiList.txt by hand for first run at start of TS2 to put it in this range
-			[25,49.5]]
+#fitRange = [[0,15.6], ### fb-1
+#			[15.6,24.115], #adjust lumi in LumiList.txt by hand for first run at start of TS2 to put it in this range
+#			[25,49.5]]
+fitRange = [[0,7.3]] ### fb-1
 if timeMode:
 	fitRange=[[0,180]]
 	if zoomTS2: fitRange=[[97,106]]
@@ -44,7 +45,7 @@ if timeMode:
 
 
 ##### Load the luminosity information
-with open("LumiList.txt") as lumilist:
+with open("../txt/LumiList.txt") as lumilist:
     for line in lumilist:
     	runs.append(line.split()[0])
     	doses.append(float(line.split()[1]))
@@ -69,7 +70,7 @@ ndepth = 7
 mindepth = 1
 
 #### holders for mean dark currents
-#### 3.3 mm and 2.8 mm channels are treated separately 
+#### 3.3 mm and 2.8 mm channels are treated separately
 means_3p3 = []
 means_2p8 = []
 meanse_3p3 = []
@@ -80,7 +81,8 @@ meanse_2p8 = []
 csvFile = open("dark_current_lumi_time.csv","w")
 csvFile.write("Run Number,Time [days since June 9],Integrated luminosity [/fb],Average 2.8mm dark current [uA],uncertainty,Average 3.3mm dark current [uA],uncertainty\n")
 for i,run in enumerate(runs):
-	filename = inputdir+"hists_sub_SPE_gsel0_"+run+".root"
+	#filename = inputdir+"hists_sub_SPE_gsel0_"+run+".root"
+	filename = inputdir+"hists_HcalTupleMaker_run"+run+".root"
 	file = ROOT.TFile(filename,"READ")
 	h_3p3 = file.Get("h1_3p3_"+run)
 	h_2p8 = file.Get("h1_2p8_"+run)
@@ -117,7 +119,7 @@ if timeMode:
 
 else:
 	graph_2p8 = ROOT.TGraphErrors(len(doses),array("d",doses),array("d",means_2p8),array("d",doseserr),array("d",meanse_2p8))
-	graph_3p3 = ROOT.TGraphErrors(len(doses),array("d",doses),array("d",means_3p3),array("d",doseserr),array("d",meanse_3p3))	
+	graph_3p3 = ROOT.TGraphErrors(len(doses),array("d",doses),array("d",means_3p3),array("d",doseserr),array("d",meanse_3p3))
 	graph_2p8.SetTitle(";Integrated luminosity [fb^{-1}];Average SiPM dark current [#muA]")
 	graph_3p3.SetTitle(";Integrated luminosity [fb^{-1}];Average SiPM dark current [#muA]")
 
@@ -156,7 +158,7 @@ if (not timeMode) or zoomTS2 or zoomNov:
 	funcs=[]
 	for i,range in enumerate(fitRange):
 		name = "f2p8_"+str(i)
-		if not zoomTS2 and not zoomNov: 
+		if not zoomTS2 and not zoomNov:
 			f1 = ROOT.TF1(name,"pol1",range[0],range[1])
 			f1.SetParameter(0,0.01)
 			f1.SetParameter(1,2.90919e-02)
@@ -183,7 +185,7 @@ if (not timeMode) or zoomTS2 or zoomNov:
 		print -1./f1.GetParameter(1),-1./(f1.GetParameter(1)+f1.GetParError(1))+1./f1.GetParameter(1),-1./(f1.GetParameter(1)-f1.GetParError(1))+1./f1.GetParameter(1)
 
 		name = "f3p3_"+str(i)
-		if not zoomTS2 and not zoomNov: 
+		if not zoomTS2 and not zoomNov:
 			f2 = ROOT.TF1(name,"pol1",range[0],range[1])
 			f2.SetParameter(0,0.01)
 			f2.SetParameter(1,2.90919e-02)
@@ -201,7 +203,7 @@ if (not timeMode) or zoomTS2 or zoomNov:
 			f2.SetParameter(1,-1e-01)
 			#f2.SetParameter(2,0.3)
 			#f2.SetParLimits(2,0,0.35)
-			
+
 
 		f2.SetLineStyle(9)
 		f2.SetLineColor(20002)
