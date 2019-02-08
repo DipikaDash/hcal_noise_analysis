@@ -3,6 +3,8 @@
 #include "TH2D.h" 
 #include "TString.h" 
 #include "TMath.h" 
+#include "TLegend.h" 
+#include "TColor.h"
 
 //
 //
@@ -125,8 +127,8 @@ void h1cosmetic(TH1D* &h1, const char* title, int linecolor=kBlack, int linewidt
     h1->SetLineColor(linecolor);
     h1->SetLineWidth(linewidth);
     h1->SetMarkerColor(linecolor);
-    h1->SetMarkerStyle(20);
-    h1->SetMarkerSize(1);
+    //h1->SetMarkerStyle(20);
+    //h1->SetMarkerSize(1);
     h1->SetFillColor(fillcolor);
     h1->SetTitle(title);
     h1->SetXTitle(var);
@@ -148,23 +150,33 @@ void h2cosmetic(TH2D* &h2, const char* title, TString Xvar="", TString Yvar="", 
 //
 //TH1D initialization
 //
-TH1D* InitTH1D(char* Name, char* Title, int Nbins, double XMin, double XMax)
+//TH1D* InitTH1D(char* Name, char* Title, int Nbins, double XMin, double XMax)
+//{
+//    TH1D *h1 = new TH1D(Name, Title, Nbins, XMin, XMax);
+//    h1->Sumw2();
+//    return h1;
+//}
+TH1D* InitTH1D(TString Name, TString Title, int Nbins, double XMin, double XMax)
 {
-    TH1D *h1 = new TH1D(Name, Title, Nbins, XMin, XMax);
-    h1->Sumw2();
-    return h1;
+  TH1D *h1 = new TH1D(Name, Title, Nbins, XMin, XMax);
+  h1->Sumw2();
+  return h1;
 }
-
 //
 //TH2D initialization
 //
-TH2D* InitTH2D(char* Name, char* Title, int NXbins, double XMin, double XMax, int NYbins, double YMin, double YMax)
+//TH2D* InitTH2D(char* Name, char* Title, int NXbins, double XMin, double XMax, int NYbins, double YMin, double YMax)
+//{
+//    TH2D *h2 = new TH2D(Name, Title, NXbins, XMin, XMax, NYbins, YMin, YMax);
+//    h2->Sumw2();
+//    return h2;
+//}
+TH2D* InitTH2D(TString Name, TString Title, int NXbins, double XMin, double XMax, int NYbins, double YMin, double YMax)
 {
-    TH2D *h2 = new TH2D(Name, Title, NXbins, XMin, XMax, NYbins, YMin, YMax);
-    h2->Sumw2();
-    return h2;
+  TH2D *h2 = new TH2D(Name, Title, NXbins, XMin, XMax, NYbins, YMin, YMax);
+  h2->Sumw2();
+  return h2;
 }
-
 //
 // Fill TH1D
 //
@@ -280,4 +292,74 @@ bool isCollidingBX(int run, int bx)
      { 
        return false;
      }
+}
+
+
+TCanvas* ratioPlot(TH1D *h1_num, TH1D *h1_deno, TString legend1, TString legend2)
+{
+  TLegend *leg = new TLegend(0.45, 0.7, 0.85, 0.87);
+  leg->SetBorderSize(0);
+  leg->SetFillStyle(0);
+  leg->AddEntry(h1_num,  legend1,     "l");
+  leg->AddEntry(h1_deno,  legend2,     "l");
+
+  TCanvas *c = new TCanvas("c","c",600,600);
+  TPad *pad_top;
+  TPad *pad_bottom;
+
+  pad_top = new TPad("p_main", "p_main", 0.0, 0.28, 1.0, 1.0);
+  pad_top->SetTopMargin(0.1);
+  pad_top->SetBottomMargin(0.04);
+  pad_top->SetRightMargin(0.1);
+  pad_top->SetLeftMargin(0.2);
+  pad_top->Draw();
+  pad_top->cd();
+  pad_top->cd()->SetLogy(1);
+
+  h1_num->SetLabelSize(0.15*0.28/0.7,"XY");
+  h1_num->SetLineColor(kRed); 
+  h1_num->SetLineWidth(2); 
+  h1_deno->SetLineColor(kBlue); 
+  h1_deno->SetLineWidth(2); 
+  h1_num->Draw("hist");
+  h1_deno->Draw("hist same");
+  leg->Draw();
+
+  c->cd();
+  pad_bottom = new TPad("p_ratio", "p_pull", 0.0, 0.0, 1.0, 0.3);
+  pad_bottom->SetLeftMargin(0.2);
+  pad_bottom->Draw();
+  pad_bottom->cd();
+  pad_bottom->SetTopMargin(0.04);
+  pad_bottom->SetRightMargin(0.1);
+  pad_bottom->SetBottomMargin(0.4);
+
+  TH1D *h1_ratio = static_cast<TH1D*>(h1_num->Clone("h1_ratio"));
+  h1_ratio->Divide(h1_deno);
+  h1_ratio->SetLineColor(kBlack); 
+  h1_ratio->SetLineWidth(2); 
+  h1_ratio->SetTitleSize(0.15); 
+  h1_ratio->SetTitle("");
+  h1_ratio->SetLabelSize(0.15,"XY");
+  h1_ratio->GetYaxis()->SetNdivisions(/*3,false*/706);
+  h1_ratio->GetXaxis()->SetNdivisions(/*3,false*/706);
+  h1_ratio->SetMinimum(0.01);
+  h1_ratio->SetMaximum(1.99);
+
+  h1_ratio->Draw("e");
+
+  return c;
+}
+
+void Set2DColor()
+{ 
+  const Int_t NRGBs = 5;
+  const Int_t NCont = 255;
+
+  Double_t stops[NRGBs] = { 0.00, 0.34, 0.61, 0.84, 1.00 };
+  Double_t red[NRGBs] = { 0.00, 0.00, 0.87, 1.00, 0.51 };
+  Double_t green[NRGBs] = { 0.00, 0.81, 1.00, 0.20, 0.00 };
+  Double_t blue[NRGBs] = { 0.51, 1.00, 0.12, 0.00, 0.00 };
+  TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont);
+  gStyle->SetNumberContours(NCont);
 }
