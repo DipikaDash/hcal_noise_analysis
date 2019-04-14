@@ -219,7 +219,7 @@ bool printHit(int run, int ls, int evt, int ieta, int iphi, int depth, bool isDa
     if (run==316944 && ls==21 && evt==2243817 && ieta==-14 && iphi==61 && depth==1) printPulses=true;
     */
     // test 
-    if (run==316944 && ls==4 && evt==184975 && ieta==2 && iphi==50 && depth==1) printPulses=true;
+    // if (run==316944 && ls==4 && evt==184975 && ieta==2 && iphi==50 && depth==1) printPulses=true;
   }
   //
   // MC
@@ -503,14 +503,14 @@ TLegend* drawPulsePlot(TChain *ch, int printIndex, THStack* &st, TH1D* &h1_data,
 int main()
 {
     gErrorIgnoreLevel=kError+1;
-    TChain* ch_3p1b     = new TChain("mahiDebugger/HcalTree"); 
-    TChain* ch_3p1b_fix = new TChain("mahiDebugger/HcalTree"); 
+    // TChain* ch_3p1b     = new TChain("mahiDebugger/HcalTree"); 
+    //TChain* ch_3p1b_fix = new TChain("mahiDebugger/HcalTree"); 
     TChain* ch_8p       = new TChain("mahiDebugger/HcalTree"); 
-    TChain* ch_8p_fix   = new TChain("mahiDebugger/HcalTree"); 
-    ch_3p1b->Add("/homes/jaehyeokyoo/HCAL/ntuples/mahidebugger_2018_3p1b_cov_notfix.root"); 
-    ch_3p1b_fix->Add("/homes/jaehyeokyoo/HCAL/ntuples/mahidebugger_2018_3p1b_cov_fix.root"); 
-    ch_8p->Add("/homes/jaehyeokyoo/HCAL/ntuples/mahidebugger_2018_8p_cov_notfix.root"); 
-    ch_8p_fix->Add("/homes/jaehyeokyoo/HCAL/ntuples/mahidebugger_2018_8p_cov_fix.root"); 
+    // TChain* ch_8p_fix   = new TChain("mahiDebugger/HcalTree"); 
+    //  ch_3p1b->Add("/homes/jaehyeokyoo/HCAL/ntuples/mahidebugger_2018_3p1b_cov_notfix.root"); 
+    // ch_3p1b_fix->Add("/homes/jaehyeokyoo/HCAL/ntuples/mahidebugger_2018_3p1b_cov_fix.root"); 
+    ch_8p->Add("/eos/home-d/ddash//HCAL/MAHI/mahidebugger_1_8p.root"); 
+    // ch_8p_fix->Add("/homes/jaehyeokyoo/HCAL/ntuples/mahidebugger_2018_8p_cov_fix.root"); 
     
     int run;
     int ls;
@@ -518,77 +518,90 @@ int main()
     int ieta;
     int iphi;
     int depth;
-    ch_3p1b->SetBranchAddress("run",        &run);
-    ch_3p1b->SetBranchAddress("ls",         &ls);
-    ch_3p1b->SetBranchAddress("evt",        &evt);
-    ch_3p1b->SetBranchAddress("ieta",       &ieta);
-    ch_3p1b->SetBranchAddress("iphi",       &iphi);
-    ch_3p1b->SetBranchAddress("depth",      &depth);
- 
+    float mahiEnergy;
+    float inGain;
+    ch_8p->SetBranchAddress("run",        &run);
+    ch_8p->SetBranchAddress("ls",         &ls);
+    ch_8p->SetBranchAddress("evt",        &evt);
+    ch_8p->SetBranchAddress("ieta",       &ieta);
+    ch_8p->SetBranchAddress("iphi",       &iphi);
+    ch_8p->SetBranchAddress("depth",      &depth);
+    ch_8p->SetBranchAddress("mahiEnergy", &mahiEnergy);
+    ch_8p->SetBranchAddress("inGain", &inGain);
     vector<int> vec_printIndex;
     vector<TString> vec_title;
+    vector<float> vec_energy;
 
-    int nentries = ch_3p1b->GetEntries();
+    int nentries = ch_8p->GetEntries();
     for(int i=0; i<nentries; i++)
     {
-      ch_3p1b->GetEntry(i); 
-      
-      if(printHit(run,ls,evt,ieta,iphi,depth))
-      {
-        vec_printIndex.push_back(i);
-        vec_title.push_back(Form("run=%i ls=%i evt=%i (%i, %i, %i)",run, ls, evt, ieta, iphi, depth));
-      }
+      ch_8p->GetEntry(i); 
+      if ((mahiEnergy * inGain) > 1 && (mahiEnergy * inGain) < 10 )
+	{
+           
+	  vec_energy.push_back(mahiEnergy * inGain);
+	  if (vec_energy.size() >11) 
+	    break;
+	  cout << "mahi" << mahiEnergy << "*" << "gain"<< inGain << endl;
+	}
+      //     if(printHit(run,ls,evt,ieta,iphi,depth))
+      // {
+      //  vec_printIndex.push_back(i);
+      //  vec_title.push_back(Form("run=%i ls=%i evt=%i (%i, %i, %i)",run, ls, evt, ieta, iphi, depth));
+      // }
     }
 
-    for(unsigned int i=0; i<vec_printIndex.size(); i++) 
+    // for(unsigned int i=0; i<vec_printIndex.size(); i++) 
+    for(unsigned int i=0; i< 11; i++)
     {
-      cout << vec_title.at(i).Data() << endl;
+      cout << vec_energy.at(i) << endl;
   
-      THStack *st_3p1b        = new THStack("st_3p1b",      Form("3p1b %s", vec_title.at(i).Data()));
-      THStack *st_3p1b_fix    = new THStack("st_3p1b_fix",  Form("3p1b fix %s", vec_title.at(i).Data()));
-      THStack *st_8p          = new THStack("st_8p",        Form("8p   %s", vec_title.at(i).Data()));
-      THStack *st_8p_fix      = new THStack("st_8p_fix",    Form("8p fix   %s", vec_title.at(i).Data()));
-      TH1D *h1_3p1b_data    = InitTH1D("h1_3p1b_data",    "h1_3p1b_data",     8, -0.5, 7.5); 
-      TH1D *h1_3p1b_fix_data    = InitTH1D("h1_3p1b_fix_data",    "h1_3p1b_fix_data",     8, -0.5, 7.5); 
+      // THStack *st_3p1b        = new THStack("st_3p1b",      Form("3p1b %s", vec_title.at(i).Data()));
+      // THStack *st_3p1b_fix    = new THStack("st_3p1b_fix",  Form("3p1b fix %s", vec_title.at(i).Data()));
+      THStack *st_8p          = new THStack("st_8p",        Form("8p   %f", vec_energy.at(i)));
+      // THStack *st_8p_fix      = new THStack("st_8p_fix",    Form("8p fix   %s", vec_title.at(i).Data()));
+      // TH1D *h1_3p1b_data    = InitTH1D("h1_3p1b_data",    "h1_3p1b_data",     8, -0.5, 7.5); 
+      //TH1D *h1_3p1b_fix_data    = InitTH1D("h1_3p1b_fix_data",    "h1_3p1b_fix_data",     8, -0.5, 7.5); 
       TH1D *h1_8p_data      = InitTH1D("h1_8p_data",      "h1_8p_data",       8, -0.5, 7.5); 
-      TH1D *h1_8p_fix_data      = InitTH1D("h1_8p_fix_data",      "h1_8p_fix_data",       8, -0.5, 7.5); 
+      // TH1D *h1_8p_fix_data      = InitTH1D("h1_8p_fix_data",      "h1_8p_fix_data",       8, -0.5, 7.5); 
 
       float max=-1;
-      TLegend *leg_3p1b = drawPulsePlot(ch_3p1b, vec_printIndex.at(i), st_3p1b, h1_3p1b_data, 
-                          Form("3 pulses + baseline:     %s, E= GeV, chi2=; TS; E [GeV]", vec_title.at(i).Data()), max);
-      TLegend *leg_3p1b_fix = drawPulsePlot(ch_3p1b_fix, vec_printIndex.at(i), st_3p1b_fix, h1_3p1b_fix_data, 
-                          Form("3 pulses + baseline (cov fixes):     %s, E= GeV, chi2=; TS; E [GeV]", vec_title.at(i).Data()), max);
-      TLegend *leg_8p   = drawPulsePlot(ch_8p,   vec_printIndex.at(i), st_8p,   h1_8p_data,   
-                          Form("8 pulses + no baseline:     %s, E= GeV, chi2=; TS; E [GeV]", vec_title.at(i).Data()), max);
-      TLegend *leg_8p_fix = drawPulsePlot(ch_8p_fix, vec_printIndex.at(i), st_8p_fix, h1_8p_fix_data, 
-                          Form("8 pulses + no baseline (cov fixes):     %s, E= GeV, chi2=; TS; E [GeV]", vec_title.at(i).Data()), max);
+      //TLegend *leg_3p1b = drawPulsePlot(ch_3p1b, vec_printIndex.at(i), st_3p1b, h1_3p1b_data, 
+      //                  Form("3 pulses + baseline:     %s, E= GeV, chi2=; TS; E [GeV]", vec_title.at(i).Data()), max);
+      // TLegend *leg_3p1b_fix = drawPulsePlot(ch_3p1b_fix, vec_printIndex.at(i), st_3p1b_fix, h1_3p1b_fix_data, 
+      //                    Form("3 pulses + baseline (cov fixes):     %s, E= GeV, chi2=; TS; E [GeV]", vec_title.at(i).Data()), max);
+      TLegend *leg_8p   = drawPulsePlot(ch_8p,   vec_energy.at(i), st_8p,   h1_8p_data,   
+					Form("8 pulses + no baseline:  E=%f GeV, chi2=; TS; E [GeV]", vec_energy.at(i)),max);
+      //TLegend *leg_8p_fix = drawPulsePlot(ch_8p_fix, vec_printIndex.at(i), st_8p_fix, h1_8p_fix_data, 
+      //                    Form("8 pulses + no baseline (cov fixes):     %s, E= GeV, chi2=; TS; E [GeV]", vec_title.at(i).Data()), max);
    
-      if(h1_3p1b_data->GetMaximum()>max) max=h1_3p1b_data->GetMaximum();
+      if(h1_8p_data->GetMaximum()>max) max=h1_8p_data->GetMaximum();
  
       //
-      TCanvas *c = new TCanvas("c","c",1600,600); 
-      c->Divide(2,2); 
-      c->cd(1); 
-      st_3p1b->Draw("hist");
-      st_3p1b->SetMaximum(max*1.2);
-      h1_3p1b_data->Draw("p same");
-      leg_3p1b->Draw();
-      c->cd(2); 
+      TCanvas *c = new TCanvas("c","c",1600,1200); 
+      // c->Divide(2,2); 
+      //c->cd(1); 
+      // st_3p1b->Draw("hist");
+      // st_3p1b->SetMaximum(max*1.2);
+      // h1_3p1b_data->Draw("p same");
+      // leg_3p1b->Draw();
+      // c->cd(2); 
       st_8p->Draw(); 
       st_8p->SetMaximum(max*1.2);
       h1_8p_data->Draw("p same");
       leg_8p->Draw();
-      c->cd(3); 
-      st_3p1b_fix->Draw("hist");
-      st_3p1b_fix->SetMaximum(max*1.2);
-      h1_3p1b_fix_data->Draw("p same");
-      leg_3p1b_fix->Draw();
-      c->cd(4); 
-      st_8p_fix->Draw(); 
-      st_8p_fix->SetMaximum(max*1.2);
-      h1_8p_fix_data->Draw("p same");
-      leg_8p_fix->Draw();
-      c->Print(Form("plots/pulse/pulse_run%i_ls%i_evt%i_ieta%i_iphi%i_depth%i.pdf", run, ls, evt, ieta, iphi, depth));
+      //c->cd(3); 
+      //st_3p1b_fix->Draw("hist");
+      //st_3p1b_fix->SetMaximum(max*1.2);
+      //h1_3p1b_fix_data->Draw("p same");
+      //leg_3p1b_fix->Draw();
+      //c->cd(4); 
+      //st_8p_fix->Draw(); 
+      //st_8p_fix->SetMaximum(max*1.2);
+      //h1_8p_fix_data->Draw("p same");
+      //leg_8p_fix->Draw();
+      //c->Print(Form("plots/pulse/pulse_run%i_ls%i_evt%i_ieta%i_iphi%i_depth%i.pdf", run, ls, evt, ieta, iphi, depth));
+      c->Print(Form("plots/pulse/pulse%f_325308_1.png",vec_energy.at(i)));
     }
 
 }

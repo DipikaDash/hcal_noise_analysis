@@ -82,6 +82,10 @@ hcal_tree::hcal_tree():
   p_HBET_(&HBET_),
   b_HBET_(tree_.Branch("HBET", &p_HBET_)),
   c_HBET_(false),
+  HBHERecHitEnergyAux_(0),
+  p_HBHERecHitEnergyAux_(&HBHERecHitEnergyAux_),
+  b_HBHERecHitEnergyAux_(tree_.Branch("HBHERecHitEnergyAux", &p_HBHERecHitEnergyAux_)),
+  c_HBHERecHitEnergyAux_(false),
   HBHERecHitEnergyRaw_(0),
   p_HBHERecHitEnergyRaw_(&HBHERecHitEnergyRaw_),
   b_HBHERecHitEnergyRaw_(tree_.Branch("HBHERecHitEnergyRaw", &p_HBHERecHitEnergyRaw_)),
@@ -110,6 +114,14 @@ hcal_tree::hcal_tree():
   p_HFET_(&HFET_),
   b_HFET_(tree_.Branch("HFET", &p_HFET_)),
   c_HFET_(false),
+  HFPhase1RecHitEta_(0),
+  p_HFPhase1RecHitEta_(&HFPhase1RecHitEta_),
+  b_HFPhase1RecHitEta_(tree_.Branch("HFPhase1RecHitEta", &p_HFPhase1RecHitEta_)),
+  c_HFPhase1RecHitEta_(false),
+  HFPhase1RecHitPhi_(0),
+  p_HFPhase1RecHitPhi_(&HFPhase1RecHitPhi_),
+  b_HFPhase1RecHitPhi_(tree_.Branch("HFPhase1RecHitPhi", &p_HFPhase1RecHitPhi_)),
+  c_HFPhase1RecHitPhi_(false),
   IsolatedNoiseSumE_(0),
   p_IsolatedNoiseSumE_(&IsolatedNoiseSumE_),
   b_IsolatedNoiseSumE_(tree_.Branch("IsolatedNoiseSumE", &p_IsolatedNoiseSumE_)),
@@ -242,14 +254,6 @@ hcal_tree::hcal_tree():
   p_HBHERecHitTime_(&HBHERecHitTime_),
   b_HBHERecHitTime_(tree_.Branch("HBHERecHitTime", &p_HBHERecHitTime_)),
   c_HBHERecHitTime_(false),
-  HFPhase1RecHitEta_(0),
-  p_HFPhase1RecHitEta_(&HFPhase1RecHitEta_),
-  b_HFPhase1RecHitEta_(tree_.Branch("HFPhase1RecHitEta", &p_HFPhase1RecHitEta_)),
-  c_HFPhase1RecHitEta_(false),
-  HFPhase1RecHitPhi_(0),
-  p_HFPhase1RecHitPhi_(&HFPhase1RecHitPhi_),
-  b_HFPhase1RecHitPhi_(tree_.Branch("HFPhase1RecHitPhi", &p_HFPhase1RecHitPhi_)),
-  c_HFPhase1RecHitPhi_(false),
   HFRecHitEnergy_(0),
   p_HFRecHitEnergy_(&HFRecHitEnergy_),
   b_HFRecHitEnergy_(tree_.Branch("HFRecHitEnergy", &p_HFRecHitEnergy_)),
@@ -266,6 +270,18 @@ hcal_tree::hcal_tree():
   p_HFRecHitTime_(&HFRecHitTime_),
   b_HFRecHitTime_(tree_.Branch("HFRecHitTime", &p_HFRecHitTime_)),
   c_HFRecHitTime_(false),
+  HBHEDigiDepth_(0),
+  p_HBHEDigiDepth_(&HBHEDigiDepth_),
+  b_HBHEDigiDepth_(tree_.Branch("HBHEDigiDepth", &p_HBHEDigiDepth_)),
+  c_HBHEDigiDepth_(false),
+  HBHEDigiIEta_(0),
+  p_HBHEDigiIEta_(&HBHEDigiIEta_),
+  b_HBHEDigiIEta_(tree_.Branch("HBHEDigiIEta", &p_HBHEDigiIEta_)),
+  c_HBHEDigiIEta_(false),
+  HBHEDigiIPhi_(0),
+  p_HBHEDigiIPhi_(&HBHEDigiIPhi_),
+  b_HBHEDigiIPhi_(tree_.Branch("HBHEDigiIPhi", &p_HBHEDigiIPhi_)),
+  c_HBHEDigiIPhi_(false),
   HBHERecHitAux_(0),
   p_HBHERecHitAux_(&HBHERecHitAux_),
   b_HBHERecHitAux_(tree_.Branch("HBHERecHitAux", &p_HBHERecHitAux_)),
@@ -294,6 +310,10 @@ hcal_tree::hcal_tree():
   p_HBHERecHitRBXid_(&HBHERecHitRBXid_),
   b_HBHERecHitRBXid_(tree_.Branch("HBHERecHitRBXid", &p_HBHERecHitRBXid_)),
   c_HBHERecHitRBXid_(false),
+  HBHERecHitSevLvl_(0),
+  p_HBHERecHitSevLvl_(&HBHERecHitSevLvl_),
+  b_HBHERecHitSevLvl_(tree_.Branch("HBHERecHitSevLvl", &p_HBHERecHitSevLvl_)),
+  c_HBHERecHitSevLvl_(false),
   HFPhase1RecHitDepth_(0),
   p_HFPhase1RecHitDepth_(&HFPhase1RecHitDepth_),
   b_HFPhase1RecHitDepth_(tree_.Branch("HFPhase1RecHitDepth", &p_HFPhase1RecHitDepth_)),
@@ -434,6 +454,10 @@ hcal_tree::hcal_tree():
   p_NumSpikeNoiseChannels_(&NumSpikeNoiseChannels_),
   b_NumSpikeNoiseChannels_(tree_.Branch("NumSpikeNoiseChannels", &p_NumSpikeNoiseChannels_)),
   c_NumSpikeNoiseChannels_(false),
+  Nvtx_(0),
+  p_Nvtx_(&Nvtx_),
+  b_Nvtx_(tree_.Branch("Nvtx", &p_Nvtx_)),
+  c_Nvtx_(false),
   OfficialDecision_(0),
   p_OfficialDecision_(&OfficialDecision_),
   b_OfficialDecision_(tree_.Branch("OfficialDecision", &p_OfficialDecision_)),
@@ -450,6 +474,30 @@ hcal_tree::hcal_tree():
   p_OfficialDecisionRun2T_(&OfficialDecisionRun2T_),
   b_OfficialDecisionRun2T_(tree_.Branch("OfficialDecisionRun2T", &p_OfficialDecisionRun2T_)),
   c_OfficialDecisionRun2T_(false),
+  QIE10DigiDepth_(0),
+  p_QIE10DigiDepth_(&QIE10DigiDepth_),
+  b_QIE10DigiDepth_(tree_.Branch("QIE10DigiDepth", &p_QIE10DigiDepth_)),
+  c_QIE10DigiDepth_(false),
+  QIE10DigiIEta_(0),
+  p_QIE10DigiIEta_(&QIE10DigiIEta_),
+  b_QIE10DigiIEta_(tree_.Branch("QIE10DigiIEta", &p_QIE10DigiIEta_)),
+  c_QIE10DigiIEta_(false),
+  QIE10DigiIPhi_(0),
+  p_QIE10DigiIPhi_(&QIE10DigiIPhi_),
+  b_QIE10DigiIPhi_(tree_.Branch("QIE10DigiIPhi", &p_QIE10DigiIPhi_)),
+  c_QIE10DigiIPhi_(false),
+  QIE11DigiDepth_(0),
+  p_QIE11DigiDepth_(&QIE11DigiDepth_),
+  b_QIE11DigiDepth_(tree_.Branch("QIE11DigiDepth", &p_QIE11DigiDepth_)),
+  c_QIE11DigiDepth_(false),
+  QIE11DigiIEta_(0),
+  p_QIE11DigiIEta_(&QIE11DigiIEta_),
+  b_QIE11DigiIEta_(tree_.Branch("QIE11DigiIEta", &p_QIE11DigiIEta_)),
+  c_QIE11DigiIEta_(false),
+  QIE11DigiIPhi_(0),
+  p_QIE11DigiIPhi_(&QIE11DigiIPhi_),
+  b_QIE11DigiIPhi_(tree_.Branch("QIE11DigiIPhi", &p_QIE11DigiIPhi_)),
+  c_QIE11DigiIPhi_(false),
   HLTInsideDatasetTriggerNames_(0),
   p_HLTInsideDatasetTriggerNames_(&HLTInsideDatasetTriggerNames_),
   b_HLTInsideDatasetTriggerNames_(tree_.Branch("HLTInsideDatasetTriggerNames", &p_HLTInsideDatasetTriggerNames_)),
@@ -482,6 +530,14 @@ hcal_tree::hcal_tree():
   p_HBHERecHitAuxRCGain_(&HBHERecHitAuxRCGain_),
   b_HBHERecHitAuxRCGain_(tree_.Branch("HBHERecHitAuxRCGain", &p_HBHERecHitAuxRCGain_)),
   c_HBHERecHitAuxRCGain_(false),
+  QIE10DigiFC_(0),
+  p_QIE10DigiFC_(&QIE10DigiFC_),
+  b_QIE10DigiFC_(tree_.Branch("QIE10DigiFC", &p_QIE10DigiFC_)),
+  c_QIE10DigiFC_(false),
+  QIE11DigiFC_(0),
+  p_QIE11DigiFC_(&QIE11DigiFC_),
+  b_QIE11DigiFC_(tree_.Branch("QIE11DigiFC", &p_QIE11DigiFC_)),
+  c_QIE11DigiFC_(false),
   RBXCharge_(0),
   p_RBXCharge_(&RBXCharge_),
   b_RBXCharge_(tree_.Branch("RBXCharge", &p_RBXCharge_)),
@@ -490,6 +546,10 @@ hcal_tree::hcal_tree():
   p_RBXCharge15_(&RBXCharge15_),
   b_RBXCharge15_(tree_.Branch("RBXCharge15", &p_RBXCharge15_)),
   c_RBXCharge15_(false),
+  HBHEDigiAllFC_(0),
+  p_HBHEDigiAllFC_(&HBHEDigiAllFC_),
+  b_HBHEDigiAllFC_(tree_.Branch("HBHEDigiAllFC", &p_HBHEDigiAllFC_)),
+  c_HBHEDigiAllFC_(false),
   HFPhase1RecHitQie10Charge_(0),
   p_HFPhase1RecHitQie10Charge_(&HFPhase1RecHitQie10Charge_),
   b_HFPhase1RecHitQie10Charge_(tree_.Branch("HFPhase1RecHitQie10Charge", &p_HFPhase1RecHitQie10Charge_)),
@@ -515,8 +575,12 @@ hcal_tree::hcal_tree():
   b_L1PhysBits_(tree_.Branch("L1PhysBits", &p_L1PhysBits_)),
   c_L1PhysBits_(false),
   L1TechBits_(0),
-  b_L1TechBits_(tree_.Branch("L1TechBits", &L1TechBits_)),
-  c_L1TechBits_(false){
+  p_L1TechBits_(&L1TechBits_),
+  b_L1TechBits_(tree_.Branch("L1TechBits", &p_L1TechBits_)),
+  c_L1TechBits_(false),
+  QIE10DigiLETDC_(0),
+  b_QIE10DigiLETDC_(tree_.Branch("QIE10DigiLETDC", &QIE10DigiLETDC_)),
+  c_QIE10DigiLETDC_(false){
 }
 
 hcal_tree::hcal_tree(const string &filename):
@@ -572,6 +636,10 @@ hcal_tree::hcal_tree(const string &filename):
   p_HBET_(&HBET_),
   b_HBET_(NULL),
   c_HBET_(false),
+  HBHERecHitEnergyAux_(0),
+  p_HBHERecHitEnergyAux_(&HBHERecHitEnergyAux_),
+  b_HBHERecHitEnergyAux_(NULL),
+  c_HBHERecHitEnergyAux_(false),
   HBHERecHitEnergyRaw_(0),
   p_HBHERecHitEnergyRaw_(&HBHERecHitEnergyRaw_),
   b_HBHERecHitEnergyRaw_(NULL),
@@ -600,6 +668,14 @@ hcal_tree::hcal_tree(const string &filename):
   p_HFET_(&HFET_),
   b_HFET_(NULL),
   c_HFET_(false),
+  HFPhase1RecHitEta_(0),
+  p_HFPhase1RecHitEta_(&HFPhase1RecHitEta_),
+  b_HFPhase1RecHitEta_(NULL),
+  c_HFPhase1RecHitEta_(false),
+  HFPhase1RecHitPhi_(0),
+  p_HFPhase1RecHitPhi_(&HFPhase1RecHitPhi_),
+  b_HFPhase1RecHitPhi_(NULL),
+  c_HFPhase1RecHitPhi_(false),
   IsolatedNoiseSumE_(0),
   p_IsolatedNoiseSumE_(&IsolatedNoiseSumE_),
   b_IsolatedNoiseSumE_(NULL),
@@ -732,14 +808,6 @@ hcal_tree::hcal_tree(const string &filename):
   p_HBHERecHitTime_(&HBHERecHitTime_),
   b_HBHERecHitTime_(NULL),
   c_HBHERecHitTime_(false),
-  HFPhase1RecHitEta_(0),
-  p_HFPhase1RecHitEta_(&HFPhase1RecHitEta_),
-  b_HFPhase1RecHitEta_(NULL),
-  c_HFPhase1RecHitEta_(false),
-  HFPhase1RecHitPhi_(0),
-  p_HFPhase1RecHitPhi_(&HFPhase1RecHitPhi_),
-  b_HFPhase1RecHitPhi_(NULL),
-  c_HFPhase1RecHitPhi_(false),
   HFRecHitEnergy_(0),
   p_HFRecHitEnergy_(&HFRecHitEnergy_),
   b_HFRecHitEnergy_(NULL),
@@ -756,6 +824,18 @@ hcal_tree::hcal_tree(const string &filename):
   p_HFRecHitTime_(&HFRecHitTime_),
   b_HFRecHitTime_(NULL),
   c_HFRecHitTime_(false),
+  HBHEDigiDepth_(0),
+  p_HBHEDigiDepth_(&HBHEDigiDepth_),
+  b_HBHEDigiDepth_(NULL),
+  c_HBHEDigiDepth_(false),
+  HBHEDigiIEta_(0),
+  p_HBHEDigiIEta_(&HBHEDigiIEta_),
+  b_HBHEDigiIEta_(NULL),
+  c_HBHEDigiIEta_(false),
+  HBHEDigiIPhi_(0),
+  p_HBHEDigiIPhi_(&HBHEDigiIPhi_),
+  b_HBHEDigiIPhi_(NULL),
+  c_HBHEDigiIPhi_(false),
   HBHERecHitAux_(0),
   p_HBHERecHitAux_(&HBHERecHitAux_),
   b_HBHERecHitAux_(NULL),
@@ -784,6 +864,10 @@ hcal_tree::hcal_tree(const string &filename):
   p_HBHERecHitRBXid_(&HBHERecHitRBXid_),
   b_HBHERecHitRBXid_(NULL),
   c_HBHERecHitRBXid_(false),
+  HBHERecHitSevLvl_(0),
+  p_HBHERecHitSevLvl_(&HBHERecHitSevLvl_),
+  b_HBHERecHitSevLvl_(NULL),
+  c_HBHERecHitSevLvl_(false),
   HFPhase1RecHitDepth_(0),
   p_HFPhase1RecHitDepth_(&HFPhase1RecHitDepth_),
   b_HFPhase1RecHitDepth_(NULL),
@@ -924,6 +1008,10 @@ hcal_tree::hcal_tree(const string &filename):
   p_NumSpikeNoiseChannels_(&NumSpikeNoiseChannels_),
   b_NumSpikeNoiseChannels_(NULL),
   c_NumSpikeNoiseChannels_(false),
+  Nvtx_(0),
+  p_Nvtx_(&Nvtx_),
+  b_Nvtx_(NULL),
+  c_Nvtx_(false),
   OfficialDecision_(0),
   p_OfficialDecision_(&OfficialDecision_),
   b_OfficialDecision_(NULL),
@@ -940,6 +1028,30 @@ hcal_tree::hcal_tree(const string &filename):
   p_OfficialDecisionRun2T_(&OfficialDecisionRun2T_),
   b_OfficialDecisionRun2T_(NULL),
   c_OfficialDecisionRun2T_(false),
+  QIE10DigiDepth_(0),
+  p_QIE10DigiDepth_(&QIE10DigiDepth_),
+  b_QIE10DigiDepth_(NULL),
+  c_QIE10DigiDepth_(false),
+  QIE10DigiIEta_(0),
+  p_QIE10DigiIEta_(&QIE10DigiIEta_),
+  b_QIE10DigiIEta_(NULL),
+  c_QIE10DigiIEta_(false),
+  QIE10DigiIPhi_(0),
+  p_QIE10DigiIPhi_(&QIE10DigiIPhi_),
+  b_QIE10DigiIPhi_(NULL),
+  c_QIE10DigiIPhi_(false),
+  QIE11DigiDepth_(0),
+  p_QIE11DigiDepth_(&QIE11DigiDepth_),
+  b_QIE11DigiDepth_(NULL),
+  c_QIE11DigiDepth_(false),
+  QIE11DigiIEta_(0),
+  p_QIE11DigiIEta_(&QIE11DigiIEta_),
+  b_QIE11DigiIEta_(NULL),
+  c_QIE11DigiIEta_(false),
+  QIE11DigiIPhi_(0),
+  p_QIE11DigiIPhi_(&QIE11DigiIPhi_),
+  b_QIE11DigiIPhi_(NULL),
+  c_QIE11DigiIPhi_(false),
   HLTInsideDatasetTriggerNames_(0),
   p_HLTInsideDatasetTriggerNames_(&HLTInsideDatasetTriggerNames_),
   b_HLTInsideDatasetTriggerNames_(NULL),
@@ -972,6 +1084,14 @@ hcal_tree::hcal_tree(const string &filename):
   p_HBHERecHitAuxRCGain_(&HBHERecHitAuxRCGain_),
   b_HBHERecHitAuxRCGain_(NULL),
   c_HBHERecHitAuxRCGain_(false),
+  QIE10DigiFC_(0),
+  p_QIE10DigiFC_(&QIE10DigiFC_),
+  b_QIE10DigiFC_(NULL),
+  c_QIE10DigiFC_(false),
+  QIE11DigiFC_(0),
+  p_QIE11DigiFC_(&QIE11DigiFC_),
+  b_QIE11DigiFC_(NULL),
+  c_QIE11DigiFC_(false),
   RBXCharge_(0),
   p_RBXCharge_(&RBXCharge_),
   b_RBXCharge_(NULL),
@@ -980,6 +1100,10 @@ hcal_tree::hcal_tree(const string &filename):
   p_RBXCharge15_(&RBXCharge15_),
   b_RBXCharge15_(NULL),
   c_RBXCharge15_(false),
+  HBHEDigiAllFC_(0),
+  p_HBHEDigiAllFC_(&HBHEDigiAllFC_),
+  b_HBHEDigiAllFC_(NULL),
+  c_HBHEDigiAllFC_(false),
   HFPhase1RecHitQie10Charge_(0),
   p_HFPhase1RecHitQie10Charge_(&HFPhase1RecHitQie10Charge_),
   b_HFPhase1RecHitQie10Charge_(NULL),
@@ -1007,7 +1131,11 @@ hcal_tree::hcal_tree(const string &filename):
   L1TechBits_(0),
   p_L1TechBits_(&L1TechBits_),
   b_L1TechBits_(NULL),
-  c_L1TechBits_(false){
+  c_L1TechBits_(false),
+  QIE10DigiLETDC_(0),
+  p_QIE10DigiLETDC_(&QIE10DigiLETDC_),
+  b_QIE10DigiLETDC_(NULL),
+  c_QIE10DigiLETDC_(false){
   chain_.Add(filename.c_str());
   chain_.SetBranchAddress("bx", &bx_, &b_bx_);
   chain_.SetBranchAddress("event", &event_, &b_event_);
@@ -1022,6 +1150,7 @@ hcal_tree::hcal_tree(const string &filename):
   chain_.SetBranchAddress("EESumE", &p_EESumE_, &b_EESumE_);
   chain_.SetBranchAddress("EESumET", &p_EESumET_, &b_EESumET_);
   chain_.SetBranchAddress("HBET", &p_HBET_, &b_HBET_);
+  chain_.SetBranchAddress("HBHERecHitEnergyAux", &p_HBHERecHitEnergyAux_, &b_HBHERecHitEnergyAux_);
   chain_.SetBranchAddress("HBHERecHitEnergyRaw", &p_HBHERecHitEnergyRaw_, &b_HBHERecHitEnergyRaw_);
   chain_.SetBranchAddress("HBSumE", &p_HBSumE_, &b_HBSumE_);
   chain_.SetBranchAddress("HBSumET", &p_HBSumET_, &b_HBSumET_);
@@ -1029,6 +1158,8 @@ hcal_tree::hcal_tree(const string &filename):
   chain_.SetBranchAddress("HESumE", &p_HESumE_, &b_HESumE_);
   chain_.SetBranchAddress("HESumET", &p_HESumET_, &b_HESumET_);
   chain_.SetBranchAddress("HFET", &p_HFET_, &b_HFET_);
+  chain_.SetBranchAddress("HFPhase1RecHitEta", &p_HFPhase1RecHitEta_, &b_HFPhase1RecHitEta_);
+  chain_.SetBranchAddress("HFPhase1RecHitPhi", &p_HFPhase1RecHitPhi_, &b_HFPhase1RecHitPhi_);
   chain_.SetBranchAddress("IsolatedNoiseSumE", &p_IsolatedNoiseSumE_, &b_IsolatedNoiseSumE_);
   chain_.SetBranchAddress("IsolatedNoiseSumEt", &p_IsolatedNoiseSumEt_, &b_IsolatedNoiseSumEt_);
   chain_.SetBranchAddress("JetEMEB", &p_JetEMEB_, &b_JetEMEB_);
@@ -1062,12 +1193,13 @@ hcal_tree::hcal_tree(const string &filename):
   chain_.SetBranchAddress("HBHERecHitEta", &p_HBHERecHitEta_, &b_HBHERecHitEta_);
   chain_.SetBranchAddress("HBHERecHitPhi", &p_HBHERecHitPhi_, &b_HBHERecHitPhi_);
   chain_.SetBranchAddress("HBHERecHitTime", &p_HBHERecHitTime_, &b_HBHERecHitTime_);
-  chain_.SetBranchAddress("HFPhase1RecHitEta", &p_HFPhase1RecHitEta_, &b_HFPhase1RecHitEta_);
-  chain_.SetBranchAddress("HFPhase1RecHitPhi", &p_HFPhase1RecHitPhi_, &b_HFPhase1RecHitPhi_);
   chain_.SetBranchAddress("HFRecHitEnergy", &p_HFRecHitEnergy_, &b_HFRecHitEnergy_);
   chain_.SetBranchAddress("HFRecHitEta", &p_HFRecHitEta_, &b_HFRecHitEta_);
   chain_.SetBranchAddress("HFRecHitPhi", &p_HFRecHitPhi_, &b_HFRecHitPhi_);
   chain_.SetBranchAddress("HFRecHitTime", &p_HFRecHitTime_, &b_HFRecHitTime_);
+  chain_.SetBranchAddress("HBHEDigiDepth", &p_HBHEDigiDepth_, &b_HBHEDigiDepth_);
+  chain_.SetBranchAddress("HBHEDigiIEta", &p_HBHEDigiIEta_, &b_HBHEDigiIEta_);
+  chain_.SetBranchAddress("HBHEDigiIPhi", &p_HBHEDigiIPhi_, &b_HBHEDigiIPhi_);
   chain_.SetBranchAddress("HBHERecHitAux", &p_HBHERecHitAux_, &b_HBHERecHitAux_);
   chain_.SetBranchAddress("HBHERecHitDepth", &p_HBHERecHitDepth_, &b_HBHERecHitDepth_);
   chain_.SetBranchAddress("HBHERecHitFlags", &p_HBHERecHitFlags_, &b_HBHERecHitFlags_);
@@ -1075,6 +1207,7 @@ hcal_tree::hcal_tree(const string &filename):
   chain_.SetBranchAddress("HBHERecHitIEta", &p_HBHERecHitIEta_, &b_HBHERecHitIEta_);
   chain_.SetBranchAddress("HBHERecHitIPhi", &p_HBHERecHitIPhi_, &b_HBHERecHitIPhi_);
   chain_.SetBranchAddress("HBHERecHitRBXid", &p_HBHERecHitRBXid_, &b_HBHERecHitRBXid_);
+  chain_.SetBranchAddress("HBHERecHitSevLvl", &p_HBHERecHitSevLvl_, &b_HBHERecHitSevLvl_);
   chain_.SetBranchAddress("HFPhase1RecHitDepth", &p_HFPhase1RecHitDepth_, &b_HFPhase1RecHitDepth_);
   chain_.SetBranchAddress("HFPhase1RecHitIEta", &p_HFPhase1RecHitIEta_, &b_HFPhase1RecHitIEta_);
   chain_.SetBranchAddress("HFPhase1RecHitIPhi", &p_HFPhase1RecHitIPhi_, &b_HFPhase1RecHitIPhi_);
@@ -1110,10 +1243,17 @@ hcal_tree::hcal_tree(const string &filename):
   chain_.SetBranchAddress("NumIsolatedNoiseChannels", &p_NumIsolatedNoiseChannels_, &b_NumIsolatedNoiseChannels_);
   chain_.SetBranchAddress("NumNegativeNoiseChannels", &p_NumNegativeNoiseChannels_, &b_NumNegativeNoiseChannels_);
   chain_.SetBranchAddress("NumSpikeNoiseChannels", &p_NumSpikeNoiseChannels_, &b_NumSpikeNoiseChannels_);
+  chain_.SetBranchAddress("Nvtx", &p_Nvtx_, &b_Nvtx_);
   chain_.SetBranchAddress("OfficialDecision", &p_OfficialDecision_, &b_OfficialDecision_);
   chain_.SetBranchAddress("OfficialDecisionRun1", &p_OfficialDecisionRun1_, &b_OfficialDecisionRun1_);
   chain_.SetBranchAddress("OfficialDecisionRun2L", &p_OfficialDecisionRun2L_, &b_OfficialDecisionRun2L_);
   chain_.SetBranchAddress("OfficialDecisionRun2T", &p_OfficialDecisionRun2T_, &b_OfficialDecisionRun2T_);
+  chain_.SetBranchAddress("QIE10DigiDepth", &p_QIE10DigiDepth_, &b_QIE10DigiDepth_);
+  chain_.SetBranchAddress("QIE10DigiIEta", &p_QIE10DigiIEta_, &b_QIE10DigiIEta_);
+  chain_.SetBranchAddress("QIE10DigiIPhi", &p_QIE10DigiIPhi_, &b_QIE10DigiIPhi_);
+  chain_.SetBranchAddress("QIE11DigiDepth", &p_QIE11DigiDepth_, &b_QIE11DigiDepth_);
+  chain_.SetBranchAddress("QIE11DigiIEta", &p_QIE11DigiIEta_, &b_QIE11DigiIEta_);
+  chain_.SetBranchAddress("QIE11DigiIPhi", &p_QIE11DigiIPhi_, &b_QIE11DigiIPhi_);
   chain_.SetBranchAddress("HLTInsideDatasetTriggerNames", &p_HLTInsideDatasetTriggerNames_, &b_HLTInsideDatasetTriggerNames_);
   chain_.SetBranchAddress("HLTOutsideDatasetTriggerNames", &p_HLTOutsideDatasetTriggerNames_, &b_HLTOutsideDatasetTriggerNames_);
   chain_.SetBranchAddress("HBHERecHitAuxAllfC", &p_HBHERecHitAuxAllfC_, &b_HBHERecHitAuxAllfC_);
@@ -1122,8 +1262,11 @@ hcal_tree::hcal_tree(const string &filename):
   chain_.SetBranchAddress("HBHERecHitAuxGain", &p_HBHERecHitAuxGain_, &b_HBHERecHitAuxGain_);
   chain_.SetBranchAddress("HBHERecHitAuxPedFC", &p_HBHERecHitAuxPedFC_, &b_HBHERecHitAuxPedFC_);
   chain_.SetBranchAddress("HBHERecHitAuxRCGain", &p_HBHERecHitAuxRCGain_, &b_HBHERecHitAuxRCGain_);
+  chain_.SetBranchAddress("QIE10DigiFC", &p_QIE10DigiFC_, &b_QIE10DigiFC_);
+  chain_.SetBranchAddress("QIE11DigiFC", &p_QIE11DigiFC_, &b_QIE11DigiFC_);
   chain_.SetBranchAddress("RBXCharge", &p_RBXCharge_, &b_RBXCharge_);
   chain_.SetBranchAddress("RBXCharge15", &p_RBXCharge15_, &b_RBXCharge15_);
+  chain_.SetBranchAddress("HBHEDigiAllFC", &p_HBHEDigiAllFC_, &b_HBHEDigiAllFC_);
   chain_.SetBranchAddress("HFPhase1RecHitQie10Charge", &p_HFPhase1RecHitQie10Charge_, &b_HFPhase1RecHitQie10Charge_);
   chain_.SetBranchAddress("HFPhase1RecHitQie10Energy", &p_HFPhase1RecHitQie10Energy_, &b_HFPhase1RecHitQie10Energy_);
   chain_.SetBranchAddress("HFPhase1RecHitQie10Time", &p_HFPhase1RecHitQie10Time_, &b_HFPhase1RecHitQie10Time_);
@@ -1131,6 +1274,7 @@ hcal_tree::hcal_tree(const string &filename):
   chain_.SetBranchAddress("HBHERecHitAuxCapID", &p_HBHERecHitAuxCapID_, &b_HBHERecHitAuxCapID_);
   chain_.SetBranchAddress("L1PhysBits", &p_L1PhysBits_, &b_L1PhysBits_);
   chain_.SetBranchAddress("L1TechBits", &p_L1TechBits_, &b_L1TechBits_);
+  chain_.SetBranchAddress("QIE10DigiLETDC", &p_QIE10DigiLETDC_, &b_QIE10DigiLETDC_);
 }
 
 void hcal_tree::Fill(){
@@ -1154,6 +1298,7 @@ void hcal_tree::Fill(){
   EESumE_.clear();
   EESumET_.clear();
   HBET_.clear();
+  HBHERecHitEnergyAux_.clear();
   HBHERecHitEnergyRaw_.clear();
   HBSumE_.clear();
   HBSumET_.clear();
@@ -1161,6 +1306,8 @@ void hcal_tree::Fill(){
   HESumE_.clear();
   HESumET_.clear();
   HFET_.clear();
+  HFPhase1RecHitEta_.clear();
+  HFPhase1RecHitPhi_.clear();
   IsolatedNoiseSumE_.clear();
   IsolatedNoiseSumEt_.clear();
   JetEMEB_.clear();
@@ -1194,12 +1341,13 @@ void hcal_tree::Fill(){
   HBHERecHitEta_.clear();
   HBHERecHitPhi_.clear();
   HBHERecHitTime_.clear();
-  HFPhase1RecHitEta_.clear();
-  HFPhase1RecHitPhi_.clear();
   HFRecHitEnergy_.clear();
   HFRecHitEta_.clear();
   HFRecHitPhi_.clear();
   HFRecHitTime_.clear();
+  HBHEDigiDepth_.clear();
+  HBHEDigiIEta_.clear();
+  HBHEDigiIPhi_.clear();
   HBHERecHitAux_.clear();
   HBHERecHitDepth_.clear();
   HBHERecHitFlags_.clear();
@@ -1207,6 +1355,7 @@ void hcal_tree::Fill(){
   HBHERecHitIEta_.clear();
   HBHERecHitIPhi_.clear();
   HBHERecHitRBXid_.clear();
+  HBHERecHitSevLvl_.clear();
   HFPhase1RecHitDepth_.clear();
   HFPhase1RecHitIEta_.clear();
   HFPhase1RecHitIPhi_.clear();
@@ -1242,10 +1391,17 @@ void hcal_tree::Fill(){
   NumIsolatedNoiseChannels_.clear();
   NumNegativeNoiseChannels_.clear();
   NumSpikeNoiseChannels_.clear();
+  Nvtx_.clear();
   OfficialDecision_.clear();
   OfficialDecisionRun1_.clear();
   OfficialDecisionRun2L_.clear();
   OfficialDecisionRun2T_.clear();
+  QIE10DigiDepth_.clear();
+  QIE10DigiIEta_.clear();
+  QIE10DigiIPhi_.clear();
+  QIE11DigiDepth_.clear();
+  QIE11DigiIEta_.clear();
+  QIE11DigiIPhi_.clear();
   HLTInsideDatasetTriggerNames_.clear();
   HLTOutsideDatasetTriggerNames_.clear();
   HBHERecHitAuxAllfC_.clear();
@@ -1254,8 +1410,11 @@ void hcal_tree::Fill(){
   HBHERecHitAuxGain_.clear();
   HBHERecHitAuxPedFC_.clear();
   HBHERecHitAuxRCGain_.clear();
+  QIE10DigiFC_.clear();
+  QIE11DigiFC_.clear();
   RBXCharge_.clear();
   RBXCharge15_.clear();
+  HBHEDigiAllFC_.clear();
   HFPhase1RecHitQie10Charge_.clear();
   HFPhase1RecHitQie10Energy_.clear();
   HFPhase1RecHitQie10Time_.clear();
@@ -1263,6 +1422,7 @@ void hcal_tree::Fill(){
   HBHERecHitAuxCapID_.clear();
   L1PhysBits_.clear();
   L1TechBits_.clear();
+  QIE10DigiLETDC_.clear();
 }
 
 void hcal_tree::Write(){
@@ -1325,6 +1485,7 @@ void hcal_tree::GetEntry(const long entry){
   c_EESumE_ = false;
   c_EESumET_ = false;
   c_HBET_ = false;
+  c_HBHERecHitEnergyAux_ = false;
   c_HBHERecHitEnergyRaw_ = false;
   c_HBSumE_ = false;
   c_HBSumET_ = false;
@@ -1332,6 +1493,8 @@ void hcal_tree::GetEntry(const long entry){
   c_HESumE_ = false;
   c_HESumET_ = false;
   c_HFET_ = false;
+  c_HFPhase1RecHitEta_ = false;
+  c_HFPhase1RecHitPhi_ = false;
   c_IsolatedNoiseSumE_ = false;
   c_IsolatedNoiseSumEt_ = false;
   c_JetEMEB_ = false;
@@ -1365,12 +1528,13 @@ void hcal_tree::GetEntry(const long entry){
   c_HBHERecHitEta_ = false;
   c_HBHERecHitPhi_ = false;
   c_HBHERecHitTime_ = false;
-  c_HFPhase1RecHitEta_ = false;
-  c_HFPhase1RecHitPhi_ = false;
   c_HFRecHitEnergy_ = false;
   c_HFRecHitEta_ = false;
   c_HFRecHitPhi_ = false;
   c_HFRecHitTime_ = false;
+  c_HBHEDigiDepth_ = false;
+  c_HBHEDigiIEta_ = false;
+  c_HBHEDigiIPhi_ = false;
   c_HBHERecHitAux_ = false;
   c_HBHERecHitDepth_ = false;
   c_HBHERecHitFlags_ = false;
@@ -1378,6 +1542,7 @@ void hcal_tree::GetEntry(const long entry){
   c_HBHERecHitIEta_ = false;
   c_HBHERecHitIPhi_ = false;
   c_HBHERecHitRBXid_ = false;
+  c_HBHERecHitSevLvl_ = false;
   c_HFPhase1RecHitDepth_ = false;
   c_HFPhase1RecHitIEta_ = false;
   c_HFPhase1RecHitIPhi_ = false;
@@ -1413,10 +1578,17 @@ void hcal_tree::GetEntry(const long entry){
   c_NumIsolatedNoiseChannels_ = false;
   c_NumNegativeNoiseChannels_ = false;
   c_NumSpikeNoiseChannels_ = false;
+  c_Nvtx_ = false;
   c_OfficialDecision_ = false;
   c_OfficialDecisionRun1_ = false;
   c_OfficialDecisionRun2L_ = false;
   c_OfficialDecisionRun2T_ = false;
+  c_QIE10DigiDepth_ = false;
+  c_QIE10DigiIEta_ = false;
+  c_QIE10DigiIPhi_ = false;
+  c_QIE11DigiDepth_ = false;
+  c_QIE11DigiIEta_ = false;
+  c_QIE11DigiIPhi_ = false;
   c_HLTInsideDatasetTriggerNames_ = false;
   c_HLTOutsideDatasetTriggerNames_ = false;
   c_HBHERecHitAuxAllfC_ = false;
@@ -1425,8 +1597,11 @@ void hcal_tree::GetEntry(const long entry){
   c_HBHERecHitAuxGain_ = false;
   c_HBHERecHitAuxPedFC_ = false;
   c_HBHERecHitAuxRCGain_ = false;
+  c_QIE10DigiFC_ = false;
+  c_QIE11DigiFC_ = false;
   c_RBXCharge_ = false;
   c_RBXCharge15_ = false;
+  c_HBHEDigiAllFC_ = false;
   c_HFPhase1RecHitQie10Charge_ = false;
   c_HFPhase1RecHitQie10Energy_ = false;
   c_HFPhase1RecHitQie10Time_ = false;
@@ -1434,6 +1609,7 @@ void hcal_tree::GetEntry(const long entry){
   c_HBHERecHitAuxCapID_ = false;
   c_L1PhysBits_ = false;
   c_L1TechBits_ = false;
+  c_QIE10DigiLETDC_ = false;
   entry_ = chain_.LoadTree(entry);
 }
 
@@ -1580,6 +1756,17 @@ std::vector<double>  const & hcal_tree::HBET() const{
   return HBET_;
 }
 
+std::vector<double>  const & hcal_tree::HBHERecHitEnergyAux() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HBHERecHitEnergyAux_ && b_HBHERecHitEnergyAux_){
+    b_HBHERecHitEnergyAux_->GetEntry(entry_);
+    c_HBHERecHitEnergyAux_ = true;
+  }
+  return HBHERecHitEnergyAux_;
+}
+
 std::vector<double>  const & hcal_tree::HBHERecHitEnergyRaw() const{
   if(!read_only_){
     throw std::logic_error("Trying to write to const tree.");
@@ -1655,6 +1842,28 @@ std::vector<double>  const & hcal_tree::HFET() const{
     c_HFET_ = true;
   }
   return HFET_;
+}
+
+std::vector<double>  const & hcal_tree::HFPhase1RecHitEta() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HFPhase1RecHitEta_ && b_HFPhase1RecHitEta_){
+    b_HFPhase1RecHitEta_->GetEntry(entry_);
+    c_HFPhase1RecHitEta_ = true;
+  }
+  return HFPhase1RecHitEta_;
+}
+
+std::vector<double>  const & hcal_tree::HFPhase1RecHitPhi() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HFPhase1RecHitPhi_ && b_HFPhase1RecHitPhi_){
+    b_HFPhase1RecHitPhi_->GetEntry(entry_);
+    c_HFPhase1RecHitPhi_ = true;
+  }
+  return HFPhase1RecHitPhi_;
 }
 
 std::vector<double>  const & hcal_tree::IsolatedNoiseSumE() const{
@@ -2020,28 +2229,6 @@ std::vector<float>  const & hcal_tree::HBHERecHitTime() const{
   return HBHERecHitTime_;
 }
 
-std::vector<float>  const & hcal_tree::HFPhase1RecHitEta() const{
-  if(!read_only_){
-    throw std::logic_error("Trying to write to const tree.");
-  }
-  if(!c_HFPhase1RecHitEta_ && b_HFPhase1RecHitEta_){
-    b_HFPhase1RecHitEta_->GetEntry(entry_);
-    c_HFPhase1RecHitEta_ = true;
-  }
-  return HFPhase1RecHitEta_;
-}
-
-std::vector<float>  const & hcal_tree::HFPhase1RecHitPhi() const{
-  if(!read_only_){
-    throw std::logic_error("Trying to write to const tree.");
-  }
-  if(!c_HFPhase1RecHitPhi_ && b_HFPhase1RecHitPhi_){
-    b_HFPhase1RecHitPhi_->GetEntry(entry_);
-    c_HFPhase1RecHitPhi_ = true;
-  }
-  return HFPhase1RecHitPhi_;
-}
-
 std::vector<float>  const & hcal_tree::HFRecHitEnergy() const{
   if(!read_only_){
     throw std::logic_error("Trying to write to const tree.");
@@ -2084,6 +2271,39 @@ std::vector<float>  const & hcal_tree::HFRecHitTime() const{
     c_HFRecHitTime_ = true;
   }
   return HFRecHitTime_;
+}
+
+std::vector<int>  const & hcal_tree::HBHEDigiDepth() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HBHEDigiDepth_ && b_HBHEDigiDepth_){
+    b_HBHEDigiDepth_->GetEntry(entry_);
+    c_HBHEDigiDepth_ = true;
+  }
+  return HBHEDigiDepth_;
+}
+
+std::vector<int>  const & hcal_tree::HBHEDigiIEta() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HBHEDigiIEta_ && b_HBHEDigiIEta_){
+    b_HBHEDigiIEta_->GetEntry(entry_);
+    c_HBHEDigiIEta_ = true;
+  }
+  return HBHEDigiIEta_;
+}
+
+std::vector<int>  const & hcal_tree::HBHEDigiIPhi() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HBHEDigiIPhi_ && b_HBHEDigiIPhi_){
+    b_HBHEDigiIPhi_->GetEntry(entry_);
+    c_HBHEDigiIPhi_ = true;
+  }
+  return HBHEDigiIPhi_;
 }
 
 std::vector<int>  const & hcal_tree::HBHERecHitAux() const{
@@ -2161,6 +2381,17 @@ std::vector<int>  const & hcal_tree::HBHERecHitRBXid() const{
     c_HBHERecHitRBXid_ = true;
   }
   return HBHERecHitRBXid_;
+}
+
+std::vector<int>  const & hcal_tree::HBHERecHitSevLvl() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HBHERecHitSevLvl_ && b_HBHERecHitSevLvl_){
+    b_HBHERecHitSevLvl_->GetEntry(entry_);
+    c_HBHERecHitSevLvl_ = true;
+  }
+  return HBHERecHitSevLvl_;
 }
 
 std::vector<int>  const & hcal_tree::HFPhase1RecHitDepth() const{
@@ -2548,6 +2779,17 @@ std::vector<int>  const & hcal_tree::NumSpikeNoiseChannels() const{
   return NumSpikeNoiseChannels_;
 }
 
+std::vector<int>  const & hcal_tree::Nvtx() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_Nvtx_ && b_Nvtx_){
+    b_Nvtx_->GetEntry(entry_);
+    c_Nvtx_ = true;
+  }
+  return Nvtx_;
+}
+
 std::vector<int>  const & hcal_tree::OfficialDecision() const{
   if(!read_only_){
     throw std::logic_error("Trying to write to const tree.");
@@ -2590,6 +2832,72 @@ std::vector<int>  const & hcal_tree::OfficialDecisionRun2T() const{
     c_OfficialDecisionRun2T_ = true;
   }
   return OfficialDecisionRun2T_;
+}
+
+std::vector<int>  const & hcal_tree::QIE10DigiDepth() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_QIE10DigiDepth_ && b_QIE10DigiDepth_){
+    b_QIE10DigiDepth_->GetEntry(entry_);
+    c_QIE10DigiDepth_ = true;
+  }
+  return QIE10DigiDepth_;
+}
+
+std::vector<int>  const & hcal_tree::QIE10DigiIEta() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_QIE10DigiIEta_ && b_QIE10DigiIEta_){
+    b_QIE10DigiIEta_->GetEntry(entry_);
+    c_QIE10DigiIEta_ = true;
+  }
+  return QIE10DigiIEta_;
+}
+
+std::vector<int>  const & hcal_tree::QIE10DigiIPhi() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_QIE10DigiIPhi_ && b_QIE10DigiIPhi_){
+    b_QIE10DigiIPhi_->GetEntry(entry_);
+    c_QIE10DigiIPhi_ = true;
+  }
+  return QIE10DigiIPhi_;
+}
+
+std::vector<int>  const & hcal_tree::QIE11DigiDepth() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_QIE11DigiDepth_ && b_QIE11DigiDepth_){
+    b_QIE11DigiDepth_->GetEntry(entry_);
+    c_QIE11DigiDepth_ = true;
+  }
+  return QIE11DigiDepth_;
+}
+
+std::vector<int>  const & hcal_tree::QIE11DigiIEta() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_QIE11DigiIEta_ && b_QIE11DigiIEta_){
+    b_QIE11DigiIEta_->GetEntry(entry_);
+    c_QIE11DigiIEta_ = true;
+  }
+  return QIE11DigiIEta_;
+}
+
+std::vector<int>  const & hcal_tree::QIE11DigiIPhi() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_QIE11DigiIPhi_ && b_QIE11DigiIPhi_){
+    b_QIE11DigiIPhi_->GetEntry(entry_);
+    c_QIE11DigiIPhi_ = true;
+  }
+  return QIE11DigiIPhi_;
 }
 
 std::vector<std::string>  const & hcal_tree::HLTInsideDatasetTriggerNames() const{
@@ -2680,6 +2988,28 @@ std::vector<std::vector<double> >  const & hcal_tree::HBHERecHitAuxRCGain() cons
   return HBHERecHitAuxRCGain_;
 }
 
+std::vector<std::vector<double> >  const & hcal_tree::QIE10DigiFC() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_QIE10DigiFC_ && b_QIE10DigiFC_){
+    b_QIE10DigiFC_->GetEntry(entry_);
+    c_QIE10DigiFC_ = true;
+  }
+  return QIE10DigiFC_;
+}
+
+std::vector<std::vector<double> >  const & hcal_tree::QIE11DigiFC() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_QIE11DigiFC_ && b_QIE11DigiFC_){
+    b_QIE11DigiFC_->GetEntry(entry_);
+    c_QIE11DigiFC_ = true;
+  }
+  return QIE11DigiFC_;
+}
+
 std::vector<std::vector<double> >  const & hcal_tree::RBXCharge() const{
   if(!read_only_){
     throw std::logic_error("Trying to write to const tree.");
@@ -2700,6 +3030,17 @@ std::vector<std::vector<double> >  const & hcal_tree::RBXCharge15() const{
     c_RBXCharge15_ = true;
   }
   return RBXCharge15_;
+}
+
+std::vector<std::vector<float> >  const & hcal_tree::HBHEDigiAllFC() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_HBHEDigiAllFC_ && b_HBHEDigiAllFC_){
+    b_HBHEDigiAllFC_->GetEntry(entry_);
+    c_HBHEDigiAllFC_ = true;
+  }
+  return HBHEDigiAllFC_;
 }
 
 std::vector<std::vector<float> >  const & hcal_tree::HFPhase1RecHitQie10Charge() const{
@@ -2777,6 +3118,17 @@ std::vector<std::vector<int> >  const & hcal_tree::L1TechBits() const{
     c_L1TechBits_ = true;
   }
   return L1TechBits_;
+}
+
+std::vector<std::vector<int> >  const & hcal_tree::QIE10DigiLETDC() const{
+  if(!read_only_){
+    throw std::logic_error("Trying to write to const tree.");
+  }
+  if(!c_QIE10DigiLETDC_ && b_QIE10DigiLETDC_){
+    b_QIE10DigiLETDC_->GetEntry(entry_);
+    c_QIE10DigiLETDC_ = true;
+  }
+  return QIE10DigiLETDC_;
 }
 
 int  & hcal_tree::bx(){
@@ -2883,6 +3235,14 @@ std::vector<double>  & hcal_tree::HBET(){
   return HBET_;
 }
 
+std::vector<double>  & hcal_tree::HBHERecHitEnergyAux(){
+  if(read_only_ && !c_HBHERecHitEnergyAux_ && b_HBHERecHitEnergyAux_){
+    b_HBHERecHitEnergyAux_->GetEntry(entry_);
+    c_HBHERecHitEnergyAux_ = true;
+  }
+  return HBHERecHitEnergyAux_;
+}
+
 std::vector<double>  & hcal_tree::HBHERecHitEnergyRaw(){
   if(read_only_ && !c_HBHERecHitEnergyRaw_ && b_HBHERecHitEnergyRaw_){
     b_HBHERecHitEnergyRaw_->GetEntry(entry_);
@@ -2937,6 +3297,22 @@ std::vector<double>  & hcal_tree::HFET(){
     c_HFET_ = true;
   }
   return HFET_;
+}
+
+std::vector<double>  & hcal_tree::HFPhase1RecHitEta(){
+  if(read_only_ && !c_HFPhase1RecHitEta_ && b_HFPhase1RecHitEta_){
+    b_HFPhase1RecHitEta_->GetEntry(entry_);
+    c_HFPhase1RecHitEta_ = true;
+  }
+  return HFPhase1RecHitEta_;
+}
+
+std::vector<double>  & hcal_tree::HFPhase1RecHitPhi(){
+  if(read_only_ && !c_HFPhase1RecHitPhi_ && b_HFPhase1RecHitPhi_){
+    b_HFPhase1RecHitPhi_->GetEntry(entry_);
+    c_HFPhase1RecHitPhi_ = true;
+  }
+  return HFPhase1RecHitPhi_;
 }
 
 std::vector<double>  & hcal_tree::IsolatedNoiseSumE(){
@@ -3203,22 +3579,6 @@ std::vector<float>  & hcal_tree::HBHERecHitTime(){
   return HBHERecHitTime_;
 }
 
-std::vector<float>  & hcal_tree::HFPhase1RecHitEta(){
-  if(read_only_ && !c_HFPhase1RecHitEta_ && b_HFPhase1RecHitEta_){
-    b_HFPhase1RecHitEta_->GetEntry(entry_);
-    c_HFPhase1RecHitEta_ = true;
-  }
-  return HFPhase1RecHitEta_;
-}
-
-std::vector<float>  & hcal_tree::HFPhase1RecHitPhi(){
-  if(read_only_ && !c_HFPhase1RecHitPhi_ && b_HFPhase1RecHitPhi_){
-    b_HFPhase1RecHitPhi_->GetEntry(entry_);
-    c_HFPhase1RecHitPhi_ = true;
-  }
-  return HFPhase1RecHitPhi_;
-}
-
 std::vector<float>  & hcal_tree::HFRecHitEnergy(){
   if(read_only_ && !c_HFRecHitEnergy_ && b_HFRecHitEnergy_){
     b_HFRecHitEnergy_->GetEntry(entry_);
@@ -3249,6 +3609,30 @@ std::vector<float>  & hcal_tree::HFRecHitTime(){
     c_HFRecHitTime_ = true;
   }
   return HFRecHitTime_;
+}
+
+std::vector<int>  & hcal_tree::HBHEDigiDepth(){
+  if(read_only_ && !c_HBHEDigiDepth_ && b_HBHEDigiDepth_){
+    b_HBHEDigiDepth_->GetEntry(entry_);
+    c_HBHEDigiDepth_ = true;
+  }
+  return HBHEDigiDepth_;
+}
+
+std::vector<int>  & hcal_tree::HBHEDigiIEta(){
+  if(read_only_ && !c_HBHEDigiIEta_ && b_HBHEDigiIEta_){
+    b_HBHEDigiIEta_->GetEntry(entry_);
+    c_HBHEDigiIEta_ = true;
+  }
+  return HBHEDigiIEta_;
+}
+
+std::vector<int>  & hcal_tree::HBHEDigiIPhi(){
+  if(read_only_ && !c_HBHEDigiIPhi_ && b_HBHEDigiIPhi_){
+    b_HBHEDigiIPhi_->GetEntry(entry_);
+    c_HBHEDigiIPhi_ = true;
+  }
+  return HBHEDigiIPhi_;
 }
 
 std::vector<int>  & hcal_tree::HBHERecHitAux(){
@@ -3305,6 +3689,14 @@ std::vector<int>  & hcal_tree::HBHERecHitRBXid(){
     c_HBHERecHitRBXid_ = true;
   }
   return HBHERecHitRBXid_;
+}
+
+std::vector<int>  & hcal_tree::HBHERecHitSevLvl(){
+  if(read_only_ && !c_HBHERecHitSevLvl_ && b_HBHERecHitSevLvl_){
+    b_HBHERecHitSevLvl_->GetEntry(entry_);
+    c_HBHERecHitSevLvl_ = true;
+  }
+  return HBHERecHitSevLvl_;
 }
 
 std::vector<int>  & hcal_tree::HFPhase1RecHitDepth(){
@@ -3587,6 +3979,14 @@ std::vector<int>  & hcal_tree::NumSpikeNoiseChannels(){
   return NumSpikeNoiseChannels_;
 }
 
+std::vector<int>  & hcal_tree::Nvtx(){
+  if(read_only_ && !c_Nvtx_ && b_Nvtx_){
+    b_Nvtx_->GetEntry(entry_);
+    c_Nvtx_ = true;
+  }
+  return Nvtx_;
+}
+
 std::vector<int>  & hcal_tree::OfficialDecision(){
   if(read_only_ && !c_OfficialDecision_ && b_OfficialDecision_){
     b_OfficialDecision_->GetEntry(entry_);
@@ -3617,6 +4017,54 @@ std::vector<int>  & hcal_tree::OfficialDecisionRun2T(){
     c_OfficialDecisionRun2T_ = true;
   }
   return OfficialDecisionRun2T_;
+}
+
+std::vector<int>  & hcal_tree::QIE10DigiDepth(){
+  if(read_only_ && !c_QIE10DigiDepth_ && b_QIE10DigiDepth_){
+    b_QIE10DigiDepth_->GetEntry(entry_);
+    c_QIE10DigiDepth_ = true;
+  }
+  return QIE10DigiDepth_;
+}
+
+std::vector<int>  & hcal_tree::QIE10DigiIEta(){
+  if(read_only_ && !c_QIE10DigiIEta_ && b_QIE10DigiIEta_){
+    b_QIE10DigiIEta_->GetEntry(entry_);
+    c_QIE10DigiIEta_ = true;
+  }
+  return QIE10DigiIEta_;
+}
+
+std::vector<int>  & hcal_tree::QIE10DigiIPhi(){
+  if(read_only_ && !c_QIE10DigiIPhi_ && b_QIE10DigiIPhi_){
+    b_QIE10DigiIPhi_->GetEntry(entry_);
+    c_QIE10DigiIPhi_ = true;
+  }
+  return QIE10DigiIPhi_;
+}
+
+std::vector<int>  & hcal_tree::QIE11DigiDepth(){
+  if(read_only_ && !c_QIE11DigiDepth_ && b_QIE11DigiDepth_){
+    b_QIE11DigiDepth_->GetEntry(entry_);
+    c_QIE11DigiDepth_ = true;
+  }
+  return QIE11DigiDepth_;
+}
+
+std::vector<int>  & hcal_tree::QIE11DigiIEta(){
+  if(read_only_ && !c_QIE11DigiIEta_ && b_QIE11DigiIEta_){
+    b_QIE11DigiIEta_->GetEntry(entry_);
+    c_QIE11DigiIEta_ = true;
+  }
+  return QIE11DigiIEta_;
+}
+
+std::vector<int>  & hcal_tree::QIE11DigiIPhi(){
+  if(read_only_ && !c_QIE11DigiIPhi_ && b_QIE11DigiIPhi_){
+    b_QIE11DigiIPhi_->GetEntry(entry_);
+    c_QIE11DigiIPhi_ = true;
+  }
+  return QIE11DigiIPhi_;
 }
 
 std::vector<std::string>  & hcal_tree::HLTInsideDatasetTriggerNames(){
@@ -3683,6 +4131,22 @@ std::vector<std::vector<double> >  & hcal_tree::HBHERecHitAuxRCGain(){
   return HBHERecHitAuxRCGain_;
 }
 
+std::vector<std::vector<double> >  & hcal_tree::QIE10DigiFC(){
+  if(read_only_ && !c_QIE10DigiFC_ && b_QIE10DigiFC_){
+    b_QIE10DigiFC_->GetEntry(entry_);
+    c_QIE10DigiFC_ = true;
+  }
+  return QIE10DigiFC_;
+}
+
+std::vector<std::vector<double> >  & hcal_tree::QIE11DigiFC(){
+  if(read_only_ && !c_QIE11DigiFC_ && b_QIE11DigiFC_){
+    b_QIE11DigiFC_->GetEntry(entry_);
+    c_QIE11DigiFC_ = true;
+  }
+  return QIE11DigiFC_;
+}
+
 std::vector<std::vector<double> >  & hcal_tree::RBXCharge(){
   if(read_only_ && !c_RBXCharge_ && b_RBXCharge_){
     b_RBXCharge_->GetEntry(entry_);
@@ -3697,6 +4161,14 @@ std::vector<std::vector<double> >  & hcal_tree::RBXCharge15(){
     c_RBXCharge15_ = true;
   }
   return RBXCharge15_;
+}
+
+std::vector<std::vector<float> >  & hcal_tree::HBHEDigiAllFC(){
+  if(read_only_ && !c_HBHEDigiAllFC_ && b_HBHEDigiAllFC_){
+    b_HBHEDigiAllFC_->GetEntry(entry_);
+    c_HBHEDigiAllFC_ = true;
+  }
+  return HBHEDigiAllFC_;
 }
 
 std::vector<std::vector<float> >  & hcal_tree::HFPhase1RecHitQie10Charge(){
@@ -3753,6 +4225,14 @@ std::vector<std::vector<int> >  & hcal_tree::L1TechBits(){
     c_L1TechBits_ = true;
   }
   return L1TechBits_;
+}
+
+std::vector<std::vector<int> >  & hcal_tree::QIE10DigiLETDC(){
+  if(read_only_ && !c_QIE10DigiLETDC_ && b_QIE10DigiLETDC_){
+    b_QIE10DigiLETDC_->GetEntry(entry_);
+    c_QIE10DigiLETDC_ = true;
+  }
+  return QIE10DigiLETDC_;
 }
 
 #include "hcal_tree_noise.hpp"
