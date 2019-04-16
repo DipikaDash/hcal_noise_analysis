@@ -220,10 +220,22 @@ bool printHit(int run, int ls, int evt, int ieta, int iphi, int depth, bool isDa
     */
     // test 
     // if (run==316944 && ls==4 && evt==184975 && ieta==2 && iphi==50 && depth==1) printPulses=true;
+    if(run==325308 && ls ==45 && evt==22190988 && ieta==-1 && iphi==14 && depth==1) printPulses=true;
+    if(run==325308 && ls ==45 && evt==22190988 && ieta==-6 && iphi==31 && depth==1) printPulses=true;
+    if(run==325308 && ls ==45 && evt==22330793 && ieta==-1 && iphi==27 && depth==1) printPulses=true;
+    if(run==325308 && ls ==45 && evt==22330793 && ieta==-1 && iphi==53 && depth==1) printPulses=true;
+    if(run==325308 && ls ==45 && evt==22330793 && ieta==-1 && iphi==62 && depth==1) printPulses=true;
+    if(run==325308 && ls ==45 && evt==22330793 && ieta==-1 && iphi==71 && depth==1) printPulses=true;
+    if(run==325308 && ls ==45 && evt==22330793 && ieta==-2 && iphi==54 && depth==1) printPulses=true;
+    if(run==325308 && ls ==45 && evt==22330793 && ieta==-2 && iphi==62 && depth==1) printPulses=true;
+    if(run==325308 && ls ==45 && evt==22330793 && ieta==-4 && iphi==46 && depth==1) printPulses=true;
+    if(run==325308 && ls ==45 && evt==22330793 && ieta==-4 && iphi==61 && depth==1) printPulses=true;
+
   }
   //
   // MC
-  //
+  
+
   else 
   { // HE pT>30, R = 0.6 - 0.9
     /*
@@ -306,22 +318,21 @@ bool printHit(int run, int ls, int evt, int ieta, int iphi, int depth, bool isDa
     if (run==1 && ls==2646 && evt==2645370 && ieta==12 && iphi==35 && depth==1) printPulses=true;
     */
     // HE pT>10 R=0.2-0.3
-    if (run==1 && ls==2646 && evt==2645046 && ieta==-28 && iphi==43 && depth==1) printPulses=true;
-    if (run==1 && ls==2646 && evt==2645050 && ieta==28 && iphi==7 && depth==4) printPulses=true;
-    if (run==1 && ls==2646 && evt==2645058 && ieta==26 && iphi==11 && depth==1) printPulses=true;
-    if (run==1 && ls==2646 && evt==2645060 && ieta==28 && iphi==43 && depth==6) printPulses=true;
-    if (run==1 && ls==2646 && evt==2645064 && ieta==28 && iphi==67 && depth==5) printPulses=true;
-    if (run==1 && ls==2646 && evt==2645073 && ieta==28 && iphi==13 && depth==1) printPulses=true;
-    if (run==1 && ls==2646 && evt==2645109 && ieta==29 && iphi==15 && depth==2) printPulses=true;
-    if (run==1 && ls==2646 && evt==2645102 && ieta==-28 && iphi==55 && depth==1) printPulses=true;
-    if (run==1 && ls==2646 && evt==2645102 && ieta==28 && iphi==1 && depth==2) printPulses=true;
-    if (run==1 && ls==2646 && evt==2645105 && ieta==27 && iphi==3 && depth==1) printPulses=true;
-    if (run==1 && ls==2646 && evt==2645105 && ieta==27 && iphi==71 && depth==1) printPulses=true;
-    if (run==1 && ls==2646 && evt==2645118 && ieta==-28 && iphi==21 && depth==5) printPulses=true;
+    // if (run==1 && ls==2646 && evt==2645046 && ieta==-28 && iphi==43 && depth==1) printPulses=true;
+    // if (run==1 && ls==2646 && evt==2645050 && ieta==28 && iphi==7 && depth==4) printPulses=true;
+    // if (run==1 && ls==2646 && evt==2645058 && ieta==26 && iphi==11 && depth==1) printPulses=true;
+    // if (run==1 && ls==2646 && evt==2645060 && ieta==28 && iphi==43 && depth==6) printPulses=true;
+    // if (run==1 && ls==2646 && evt==2645064 && ieta==28 && iphi==67 && depth==5) printPulses=true;
+    // if (run==1 && ls==2646 && evt==2645073 && ieta==28 && iphi==13 && depth==1) printPulses=true;
+    // if (run==1 && ls==2646 && evt==2645109 && ieta==29 && iphi==15 && depth==2) printPulses=true;
+    // if (run==1 && ls==2646 && evt==2645102 && ieta==-28 && iphi==55 && depth==1) printPulses=true;
+    // if (run==1 && ls==2646 && evt==2645102 && ieta==28 && iphi==1 && depth==2) printPulses=true;
+    // if (run==1 && ls==2646 && evt==2645105 && ieta==27 && iphi==3 && depth==1) printPulses=true;
+    // if (run==1 && ls==2646 && evt==2645105 && ieta==27 && iphi==71 && depth==1) printPulses=true;
+     if (run==1 && ls==2646 && evt==2645118 && ieta==-28 && iphi==21 && depth==5) printPulses=true;
   }
   return printPulses;
 }
-
 
 TLegend* drawPulsePlot(TChain *ch, int printIndex, THStack* &st, TH1D* &h1_data, TString title, float &max) 
                   //int run, int ls, int evt, int ieta, int iphi, int depth, 
@@ -509,7 +520,7 @@ int main()
     // TChain* ch_8p_fix   = new TChain("mahiDebugger/HcalTree"); 
     //  ch_3p1b->Add("/homes/jaehyeokyoo/HCAL/ntuples/mahidebugger_2018_3p1b_cov_notfix.root"); 
     // ch_3p1b_fix->Add("/homes/jaehyeokyoo/HCAL/ntuples/mahidebugger_2018_3p1b_cov_fix.root"); 
-    ch_8p->Add("/eos/home-d/ddash//HCAL/MAHI/mahidebugger_1_8p.root"); 
+    ch_8p->Add("/eos/home-d/ddash//HCAL/MAHI/mahidebugger_8p_nonneg1.root");          //mahidebugger_1_8p.root");//mahidebugger_8p_nonneg1.root"); 
     // ch_8p_fix->Add("/homes/jaehyeokyoo/HCAL/ntuples/mahidebugger_2018_8p_cov_fix.root"); 
     
     int run;
@@ -536,29 +547,33 @@ int main()
     for(int i=0; i<nentries; i++)
     {
       ch_8p->GetEntry(i); 
-      if ((mahiEnergy * inGain) > 1 && (mahiEnergy * inGain) < 10 )
-	{
+
+      // if ((mahiEnergy * inGain) > 1 && (mahiEnergy * inGain) < 10 )
+      //	{
            
-	  vec_energy.push_back(mahiEnergy * inGain);
-	  if (vec_energy.size() >11) 
-	    break;
-	  cout << "mahi" << mahiEnergy << "*" << "gain"<< inGain << endl;
-	}
-      //     if(printHit(run,ls,evt,ieta,iphi,depth))
-      // {
-      //  vec_printIndex.push_back(i);
-      //  vec_title.push_back(Form("run=%i ls=%i evt=%i (%i, %i, %i)",run, ls, evt, ieta, iphi, depth));
-      // }
+      //  vec_energy.push_back(mahiEnergy * inGain);
+      //	   if (vec_energy.size() >11) 
+      //	   break;
+	  // cout << "mahi" << mahiEnergy << "*" << "gain"<< inGain << endl;
+      //	   cout << "run: "<< run << " ls: " << ls << " event: " << evt << " ieta: " << ieta << " iphi: "<< iphi << " depth: " << depth << endl;
+      //		}
+         if(printHit(run,ls,evt,ieta,iphi,depth))
+       {
+
+        vec_printIndex.push_back(i);
+        vec_title.push_back(Form("run=%i ls=%i evt=%i (%i, %i, %i)",run, ls, evt, ieta, iphi, depth));
+       }
     }
 
-    // for(unsigned int i=0; i<vec_printIndex.size(); i++) 
-    for(unsigned int i=0; i< 11; i++)
+     for(unsigned int i=0; i<vec_printIndex.size(); i++) 
+    //for(unsigned int i=0; i< 11; i++)
     {
-      cout << vec_energy.at(i) << endl;
-  
+      // cout << vec_energy.at(i) << endl;
+      cout << vec_title.at(i).Data() << endl;
+
       // THStack *st_3p1b        = new THStack("st_3p1b",      Form("3p1b %s", vec_title.at(i).Data()));
       // THStack *st_3p1b_fix    = new THStack("st_3p1b_fix",  Form("3p1b fix %s", vec_title.at(i).Data()));
-      THStack *st_8p          = new THStack("st_8p",        Form("8p   %f", vec_energy.at(i)));
+      THStack *st_8p          = new THStack("st_8p",        Form("8p   %s", vec_title.at(i).Data()));
       // THStack *st_8p_fix      = new THStack("st_8p_fix",    Form("8p fix   %s", vec_title.at(i).Data()));
       // TH1D *h1_3p1b_data    = InitTH1D("h1_3p1b_data",    "h1_3p1b_data",     8, -0.5, 7.5); 
       //TH1D *h1_3p1b_fix_data    = InitTH1D("h1_3p1b_fix_data",    "h1_3p1b_fix_data",     8, -0.5, 7.5); 
@@ -570,15 +585,15 @@ int main()
       //                  Form("3 pulses + baseline:     %s, E= GeV, chi2=; TS; E [GeV]", vec_title.at(i).Data()), max);
       // TLegend *leg_3p1b_fix = drawPulsePlot(ch_3p1b_fix, vec_printIndex.at(i), st_3p1b_fix, h1_3p1b_fix_data, 
       //                    Form("3 pulses + baseline (cov fixes):     %s, E= GeV, chi2=; TS; E [GeV]", vec_title.at(i).Data()), max);
-      TLegend *leg_8p   = drawPulsePlot(ch_8p,   vec_energy.at(i), st_8p,   h1_8p_data,   
-					Form("8 pulses + no baseline:  E=%f GeV, chi2=; TS; E [GeV]", vec_energy.at(i)),max);
+      TLegend *leg_8p   = drawPulsePlot(ch_8p,   vec_printIndex.at(i), st_8p,   h1_8p_data,   
+					Form("8 pulses + no baseline:  E=%s GeV, chi2=; TS; E [GeV]", vec_title.at(i).Data()),max);
       //TLegend *leg_8p_fix = drawPulsePlot(ch_8p_fix, vec_printIndex.at(i), st_8p_fix, h1_8p_fix_data, 
       //                    Form("8 pulses + no baseline (cov fixes):     %s, E= GeV, chi2=; TS; E [GeV]", vec_title.at(i).Data()), max);
    
       if(h1_8p_data->GetMaximum()>max) max=h1_8p_data->GetMaximum();
  
       //
-      TCanvas *c = new TCanvas("c","c",1600,1200); 
+      TCanvas *c = new TCanvas("c","c",1600,1000); 
       // c->Divide(2,2); 
       //c->cd(1); 
       // st_3p1b->Draw("hist");
@@ -600,8 +615,8 @@ int main()
       //st_8p_fix->SetMaximum(max*1.2);
       //h1_8p_fix_data->Draw("p same");
       //leg_8p_fix->Draw();
-      //c->Print(Form("plots/pulse/pulse_run%i_ls%i_evt%i_ieta%i_iphi%i_depth%i.pdf", run, ls, evt, ieta, iphi, depth));
-      c->Print(Form("plots/pulse/pulse%f_325308_1.png",vec_energy.at(i)));
+      c->Print(Form("plots/pulse/pulse_run%i_ls%i_evt%i_ieta%i_iphi%i_depth%i.pdf", run, ls, evt, ieta, iphi, depth));
+      // c->Print(Form("plots/pulse/pulse%f_325308_1_n8p.png",vec_energy.at(i)));
     }
 
 }
